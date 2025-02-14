@@ -1,6 +1,6 @@
 ---
 title: about
-description: About Severyn Kozak.
+description: About Me
 stylesheet: true
 sitemap:
   changefreq: monthly
@@ -8,23 +8,32 @@ sitemap:
 ---
 
 <div id="about">
-	<div id="left">
-		<img src="{{ 'severyn.kozak@gmail.com' | gravatar }}?s=150" alt="A photo of Severyn Kozak.">
-	</div
-	><div id="middle">
-	</div
-	><div id="right">
-		<h1>about</h1>
-		<p>
-			Hi! I'm Severyn Kozak. I studied computer science and math at MIT and now work at a high frequency trading firm
-			in New York City. Check out my <a href="/articles">posts</a>, <a href="/resume.pdf">resume</a>, or <a
-				href="mailto:severyn.kozak@gmail.com">get in touch</a>.
-		</p>
+    <!-- Large Contributors Title with More Space Below -->
+    <h1 style="font-size: 2.5em; text-align: center; margin-bottom: 30px;">Contributors</h1>
 
-		<div id="links">
-			<div><a id="github" href="https://github.com/sevko"></a></div
-			><div><a id="stackoverflow" href="https://stackoverflow.com/users/2398123/sevko"></a></div
-			><div><a id="linkedin" href="https://www.linkedin.com/pub/severyn-kozak/54/534/181/"></a></div>
-		</div>
-	</div>
+    <div style="display: flex; align-items: center; text-align: left;">
+        <!-- Profile Image on the Left -->
+        <div id="left" style="flex-shrink: 0; margin-right: 20px;">
+            <img src="/my_photo.jpg" alt="A photo of me." 
+                 style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
+        </div>
+
+        <!-- Right Content -->
+        <div id="right">
+            <!-- Name -->
+            <h1 style="margin-top: 0;">Jan Masák</h1>
+
+            <!-- Description -->
+            <p>
+                Hi! I'm Jan Masák. I studied [Your Field] at [Your University] and now [Briefly Describe What You Do].
+                Check out my <a href="/articles">posts</a>, or <a href="mailto:jan2001masak@gmail.com">get in touch</a>.
+            </p>
+
+            <!-- Links (Unchanged) -->
+            <div id="links">
+                <div><a id="github" href="https://github.com/janmasak"></a></div>
+                <div><a id="linkedin" href="https://www.linkedin.com/in/jan-masak"></a></div>
+            </div>
+        </div>
+    </div>
 </div>
