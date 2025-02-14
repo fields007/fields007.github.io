@@ -1,0 +1,5 @@
+I"H<h1 id="power-sets">power sets</h1>
+<p>The power set of a set is the set of all its subsets, or a collection of all the different combinations of items
+contained in that given set: in this write-up, we’ll briefly explore the math behind power sets, and derive and compare
+three different algorithms used to generate them.</p>
+:ET

@@ -1,0 +1,219 @@
+I"W^<h1 id="prime-number-spirals">prime number spirals</h1>
+<p>Prime number spirals are visualizations of the distribution of prime numbers that underscore their frequent occurrences
+along certain polynomials. They’re conceptually simple, yet create order out of the apparent chaos of primes and are
+fairly beautiful. We’ll explore the Ulam and Sacks spirals, some of their underlying theory,
+and algorithms to render each.</p>
+
+<h2 id="ulam-spiral">Ulam spiral</h2>
+<p>The story has it that <a href="http://en.wikipedia.org/wiki/Stanislaw_Ulam">Stanislaw Ulam</a>, a Polish-American mathematician of
+<a href="http://en.wikipedia.org/wiki/Teller%E2%80%93Ulam_design">thermonuclear</a>
+<a href="http://en.wikipedia.org/wiki/History_of_the_Teller%E2%80%93Ulam_design">fame</a><sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>, sat in a presentation of a
+“long and very boring paper” at a 1963 scientific conference. After some time, he began doodling (the hallmark of great
+genius), first writing out the first few positive integers in a counter-clockwise spiral, and then circling all of
+the prime numbers. And he noticed something that he’d later formulate as “a strongly nonrandom appearance.” Even on
+a small scale – say, the first 121 integers, which form a 11x11 grid – it’s visible that many primes align along
+certain diagonal lines.</p>
+
+<p><img src="/data/prime_number_spirals/small_ulam_spiral.png" alt="An Ulam spiral consisting of the first 121 natural numbers" /></p>
+
+<p>Ulam later used <a href="http://en.wikipedia.org/wiki/MANIAC_II">MANIAC II</a>, a first-generation computer built for
+<a href="http://en.wikipedia.org/wiki/Los_Alamos_Scientific_Laboratory">Los Alamos National Laboratory</a> in 1957, to generate
+images of the first 65,000<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup> integers. The following spiral contains the first 360,000
+(600x600):</p>
+
+<p><img src="/data/prime_number_spirals/big_ulam_spiral.png" alt="An Ulam spiral consisting of the first 360,000 natural numbers." /></p>
+
+<p>Look closely, and we see much more than just white noise.</p>
+
+<h2 id="sacks-spiral">Sacks spiral</h2>
+
+<p>A software engineer named Robert Sacks devised a variant of the Ulam spiral in 1994. Unlike Ulam’s, Sacks’s spiral
+distributes integers along an <a href="http://en.wikipedia.org/wiki/Archimedean_spiral">Archimedean spiral</a>, or a function of
+the polar form \(r = a + b\theta\). Sacks discarded \(a\) (which just controls the offset of the starting point of the curve
+from the pole) and used \(b=\frac{1}{2\pi}\), leaving \(r = \frac{\theta}{2\pi}\); he then plotted the squares of all
+the natural numbers – \({1, 4, 9, 16, 25, ...}\) – on the intersections of the spiral and the polar axis, and filled
+in the points between squares along the spiral, drawing them equidistant from one another.</p>
+
+<p><img src="/data/prime_number_spirals/big_sacks_spiral.png" alt="A Sacks spiral consisting of the first 22,800 natural numbers." /></p>
+
+<h1 id="prime-generating-polynomials">prime-generating polynomials</h1>
+
+<p>The reason why we see ghostly diagonals is that some polynomials, informally called
+<a href="http://mathworld.wolfram.com/Prime-GeneratingPolynomial.html">prime-generating polynomials</a>, have aberrantly high
+occurrences of prime numbers. \(n^2 + n + 41\), for instance, patented by
+<a href="http://en.wikipedia.org/wiki/Leonhard_Euler">Leonhard Euler</a> in 1772, is prime for all \(n\) in the range \([0, 39]\),
+yielding \(43, 47, 53, 61, ..., 1523, 1601\). A variant is \(n^2 - n + 41\), proposed by
+<a href="http://en.wikipedia.org/wiki/Adrien-Marie_Legendre">Adrien-Marie Legendre</a> in 1798, which is prime in \([0, 40]\).
+Here are several others, as taken at random from
+<a href="http://mathworld.wolfram.com/Prime-GeneratingPolynomial.html">Wolfram Mathworld</a>:</p>
+
+\[\frac{1}{4}(n^5 - 133n^4 + 6729n^3 - 158379n^2 + 1720294n - 6823316)\\
+\frac{1}{36}(n^6 - 126n^5 + 6217n^4 - 153066n^3 + 1987786n^2 - 13055316n + 34747236)\\
+n^4 - 97n^3 + 3294n^2 - 45458n + 213589\\
+n^5 - 99n^4 + 3588n^3 - 56822n^2 + 348272n - 286397\]
+
+<p>In the case of the rectangular Ulam spiral, these polynomials appear as diagonal lines. They were known about since
+1772, if not earlier, and a prime-number spiral was hinted at twice before Ulam published his. In 1932 (31 years
+earlier before Ulam!), <a href="http://en.wikipedia.org/wiki/Laurence_Monroe_Klauber">Laurence M. Klauber</a>, a herpetologist
+primarily focused on the study of rattlesnakes, presented a method of using a spiral grid to identify prime-generating
+polynomials to the
+<a href="http://en.wikipedia.org/wiki/Mathematical_Association_of_America">Mathematical Association of America</a>. The second
+frequently-cited mention of prime spirals came from <a href="http://en.wikipedia.org/wiki/Arthur_C._Clarke">Arthur C. Clarke</a>,
+a British science-fiction writer, whose <a href="http://en.wikipedia.org/wiki/The_City_and_the_Stars"><em>The City and the Stars</em></a>
+(1956) describes a protagonist, Jeserac, as “[setting] up the matrix of all possible integers, and [starting] his
+computer stringing the primes across its surface as beads might be arranged at the intersections of a mesh.” In my
+opinion, the second mention is fairly ambiguous, but the fact stands that, by the time Ulam published his famous
+spiral, a general understanding of prime-generating polynomials existed and people were considering ways of visualizing
+them. Thus, it’s perhaps a little disingenuous to suggest that he stumbled across it when “doodling” (something
+intricate) at random – there may have been some method to it.</p>
+
+<h1 id="rendering-the-spirals">rendering the spirals</h1>
+
+<p>I was introduced to prime number spirals about a year ago, by <a href="https://www.youtube.com/watch?v=iFuR97YcSLM">a video</a>
+on the excellent <a href="https://www.youtube.com/channel/UCoxcjq-8xIDTYp3uz647V5A">Numberphile</a>. I immediately jumped
+into hacking together a Python script to render the spirals on my own, because it’s both tremendously easy and very
+visually rewarding. I’ll revisit the implementation, this time in Javascript. I’m not going to show all of the
+necessary code (like HTML markup/CSS styles) in the interest of brevity, but the zipped files are linked to at the end
+of the post.</p>
+
+<h2 id="canvas-setup">canvas setup</h2>
+
+<p>Let’s outline our interface. We’ll define functions <code class="language-plaintext highlighter-rouge">ulamSpiral(numLayers)</code> and <code class="language-plaintext highlighter-rouge">sacksSpiral(numLayers)</code>, where
+the argument <code class="language-plaintext highlighter-rouge">numLayers</code> is the number of revolutions in the spiral, or effectively the number of rings that it contains. Both
+functions need to set the height and width of the canvas according to <code class="language-plaintext highlighter-rouge">numLayers</code>, and require a function
+<code class="language-plaintext highlighter-rouge">drawPixel(x, y)</code> to plot pixels. Note that we’ll want <code class="language-plaintext highlighter-rouge">drawPixel()</code> to treat the <em>centroid</em> of the canvas as its
+origin, so that <code class="language-plaintext highlighter-rouge">drawPixel(0, 0)</code> plots a point at its center and <em>not</em> the top-left corner. Because both the canvas
+dimensions and the offset used by <code class="language-plaintext highlighter-rouge">drawPixel()</code> are dependent on <code class="language-plaintext highlighter-rouge">numLayers</code>, we’ll bundle them them into a function
+called <code class="language-plaintext highlighter-rouge">setupCanvas()</code>.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">setupCanvas</span><span class="p">(</span><span class="nx">numLayers</span><span class="p">){</span>
+	<span class="dl">"</span><span class="s2">use strict</span><span class="dl">"</span><span class="p">;</span>
+
+	<span class="kd">var</span> <span class="nx">sideLen</span> <span class="o">=</span> <span class="nx">numLayers</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="kd">var</span> <span class="nx">canvas</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="dl">"</span><span class="s2">canvas</span><span class="dl">"</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+	<span class="nx">canvas</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="dl">"</span><span class="s2">width</span><span class="dl">"</span><span class="p">,</span> <span class="nx">sideLen</span><span class="p">);</span>
+	<span class="nx">canvas</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="dl">"</span><span class="s2">height</span><span class="dl">"</span><span class="p">,</span> <span class="nx">sideLen</span><span class="p">);</span>
+
+	<span class="kd">var</span> <span class="nx">context</span> <span class="o">=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="dl">"</span><span class="s2">2d</span><span class="dl">"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="kd">function</span> <span class="nx">drawPixel</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">){</span>
+		<span class="nx">context</span><span class="p">.</span><span class="nx">fillRect</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">numLayers</span><span class="p">,</span> <span class="nx">y</span> <span class="o">+</span> <span class="nx">numLayers</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="p">};</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Note that we set <code class="language-plaintext highlighter-rouge">sideLen</code> equal to <code class="language-plaintext highlighter-rouge">numLayers * 2 + 1</code>, rather than only <code class="language-plaintext highlighter-rouge">numLayers * 2</code>, because we need to account for the
+row/column containing the origin of the spiral, which is not technically a ring. Now, we can use <code class="language-plaintext highlighter-rouge">setupCanvas()</code> to
+both set the canvas dimensions, and return a <code class="language-plaintext highlighter-rouge">drawPixel()</code> that takes advantage of closure to access all of the
+variables (<code class="language-plaintext highlighter-rouge">numLayers</code>, <code class="language-plaintext highlighter-rouge">context</code>) that it needs. Also, to draw a single pixel, we’re calling <code class="language-plaintext highlighter-rouge">fillRect()</code> with a
+width and height of 1 – the canvas unfortunately doesn’t have (or perhaps just doesn’t expose) a single pixel-plotting
+function. Finally, to test the primality of our values, we’ll use <a href="https://www.npmjs.org/~kenan">Kenan Yildirim</a>’s
+<a href="https://www.npmjs.org/package/primality">primality</a> library, which provides <code class="language-plaintext highlighter-rouge">primality(val)</code>.</p>
+
+<h2 id="ulam-algorithm">Ulam algorithm</h2>
+
+<p>The dull stuff aside, we can begin implementing <code class="language-plaintext highlighter-rouge">ulamSpiral()</code>. The general algorithm will run as follows:</p>
+
+<ol>
+  <li>Use variables <code class="language-plaintext highlighter-rouge">x</code>, <code class="language-plaintext highlighter-rouge">y</code>, and <code class="language-plaintext highlighter-rouge">currValue</code> to track the position and value of the current point – the “head” of the
+spiral.</li>
+  <li>Trace out the square spirals by incrementing/decrementing <code class="language-plaintext highlighter-rouge">x</code> and <code class="language-plaintext highlighter-rouge">y</code>, while incrementing <code class="language-plaintext highlighter-rouge">currValue</code>.</li>
+  <li>After the head of the spiral moves, if <code class="language-plaintext highlighter-rouge">currValue</code> is prime, plot a pixel at (<code class="language-plaintext highlighter-rouge">x</code>, <code class="language-plaintext highlighter-rouge">y</code>).</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">ulamSpiral</span><span class="p">(</span><span class="nx">numLayers</span><span class="p">){</span>
+	<span class="dl">"</span><span class="s2">use strict</span><span class="dl">"</span><span class="p">;</span>
+
+	<span class="kd">var</span> <span class="nx">drawPixel</span> <span class="o">=</span> <span class="nx">setupCanvas</span><span class="p">(</span><span class="nx">numLayers</span><span class="p">);</span>
+
+	<span class="kd">var</span> <span class="nx">currValue</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="kd">function</span> <span class="nx">drawLine</span><span class="p">(</span><span class="nx">dx</span><span class="p">,</span> <span class="nx">dy</span><span class="p">,</span> <span class="nx">len</span><span class="p">){</span>
+		<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">pixel</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">pixel</span> <span class="o">&lt;</span> <span class="nx">len</span><span class="p">;</span> <span class="nx">pixel</span><span class="o">++</span><span class="p">){</span>
+			<span class="k">if</span><span class="p">(</span><span class="nx">primality</span><span class="p">(</span><span class="nx">currValue</span><span class="o">++</span><span class="p">)){</span>
+				<span class="nx">drawPixel</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span>
+			<span class="p">}</span>
+			<span class="nx">x</span> <span class="o">+=</span> <span class="nx">dx</span><span class="p">;</span>
+			<span class="nx">y</span> <span class="o">+=</span> <span class="nx">dy</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">layer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">len</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">layer</span> <span class="o">&lt;=</span> <span class="nx">numLayers</span><span class="p">;</span> <span class="nx">layer</span><span class="o">++</span><span class="p">,</span> <span class="nx">len</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">){</span>
+		<span class="nx">drawLine</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nx">len</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+		<span class="nx">drawLine</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">len</span><span class="p">);</span>
+		<span class="nx">drawLine</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">len</span><span class="p">);</span>
+		<span class="nx">drawLine</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">len</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We simply iterate <code class="language-plaintext highlighter-rouge">numLayers + 1</code> times, drawing rectangular layers – the spiral – as we go. I couldn’t think of a
+better solution than using a function <code class="language-plaintext highlighter-rouge">drawLine()</code>, which accepts a direction (<code class="language-plaintext highlighter-rouge">dx</code> and <code class="language-plaintext highlighter-rouge">dy</code>, one of which should be
+0), and a <code class="language-plaintext highlighter-rouge">length</code> to draw four different straight lines (perhaps it can somehow be done in one elegant loop?).</p>
+
+<h2 id="sacks-algorithm">Sacks algorithm</h2>
+
+<p>The Sacks spiral is a little more mathematically interesting because it relies (somewhat) on polar equations. Our
+algorithm:</p>
+
+<ol>
+  <li>Iterate <code class="language-plaintext highlighter-rouge">numLayers</code> times.</li>
+  <li>For each iteration, draw the values between the current square, \(n ^ 2\), and the next, \(n + 1 ^ 2\). Since
+\((n + 1)^2 - n^2 = n^2 + 2n + 1 - n^2 = 2n + 1\), there are \(2n + 1\) points per iteration of \(n\).</li>
+  <li>Render each prime point by calculating its angle off the polar axis (the aligned squares), then its radius, or
+distance from the pole, and then using trigonometry to solve for its cartesian coordinates.</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">sacksSpiral</span><span class="p">(</span><span class="nx">numLayers</span><span class="p">){</span>
+	<span class="dl">"</span><span class="s2">use strict</span><span class="dl">"</span><span class="p">;</span>
+
+	<span class="kd">var</span> <span class="nx">drawPixel</span> <span class="o">=</span> <span class="nx">setupCanvas</span><span class="p">(</span><span class="nx">numLayers</span><span class="p">);</span>
+
+	<span class="kd">var</span> <span class="nx">currValue</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">layer</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">layer</span> <span class="o">&lt;=</span> <span class="nx">numLayers</span><span class="p">;</span> <span class="nx">layer</span><span class="o">++</span><span class="p">){</span>
+		<span class="kd">var</span> <span class="nx">numPoints</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nx">layer</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="kd">var</span> <span class="nx">angle</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="nx">numPoints</span><span class="p">;</span>
+		<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">point</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">point</span> <span class="o">&lt;=</span> <span class="nx">numPoints</span><span class="p">;</span> <span class="nx">point</span><span class="o">++</span><span class="p">){</span>
+			<span class="k">if</span><span class="p">(</span><span class="nx">primality</span><span class="p">(</span><span class="nx">currValue</span><span class="o">++</span><span class="p">)){</span>
+				<span class="kd">var</span> <span class="nx">theta</span> <span class="o">=</span> <span class="nx">point</span> <span class="o">*</span> <span class="nx">angle</span><span class="p">;</span>
+				<span class="kd">var</span> <span class="nx">radius</span> <span class="o">=</span> <span class="nx">layer</span> <span class="o">+</span> <span class="nx">point</span> <span class="o">/</span> <span class="nx">numPoints</span><span class="p">;</span>
+				<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">theta</span><span class="p">)</span> <span class="o">*</span> <span class="nx">radius</span><span class="p">;</span>
+				<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">theta</span><span class="p">)</span> <span class="o">*</span> <span class="nx">radius</span><span class="p">;</span>
+				<span class="nx">drawPixel</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">x</span><span class="p">),</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">y</span><span class="p">));</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>To calculate the polar angle of any point, we first solve for the angle between subsequent points
+(<code class="language-plaintext highlighter-rouge">var angle = 2 * Math.PI / numPoints;</code>), and then multiply it by the fraction of the current rotation of the spiral
+that the point lies at (<code class="language-plaintext highlighter-rouge">var theta = point * angle;</code>). We’ll also <code class="language-plaintext highlighter-rouge">Math.floor()</code> the coordinates sent to <code class="language-plaintext highlighter-rouge">drawPixel()</code>,
+because, after the various trigonometic operations they’re likely decimals rather than integers and cause blurred
+canvas reading.</p>
+
+<p>That’s all! For more reading on prime-number spirals, I recommend this <a href="http://www.numberspiral.com/">in-depth article</a>
+by Robert Sacks himself, and another <a href="http://www.dcs.gla.ac.uk/~jhw/spirals/">write-up</a> of algorithms used to render
+them.</p>
+
+<p>Download all of the source code <a href="/data/prime_number_spirals/prime_number_spirals.zip">here</a>, or view it
+on <a href="https://github.com/sevko/portfolio/tree/develop/visualizations/prime_number_spirals">Github</a>.</p>
+
+<hr />
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>Ulam is also well-known for contributing to the
+<a href="http://en.wikipedia.org/wiki/Manhattan_Project">Manhattan Project</a>, proponing the
+<a href="http://en.wikipedia.org/wiki/Monte_Carlo_method">Monte Carlo method</a> of computation, and exploring
+<a href="http://en.wikipedia.org/wiki/Project_Orion_(nuclear_propulsion)">spaceships propelled by nuclear explosions</a>,
+amongst a large number of other things. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>Assuming that Ulam began rendering his spiral with the integer 1 (instead of something like 41, which is also
+common), I suspect that the generated images had exactly 65,025 integers. 65,000 integers implies as many pixels,
+the square root – the Ulam spiral is inherently square – of which is 254.95, which obviously isn’t a valid image
+height/width. Thus, we round to 255, and square for 65,025. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+:ET
