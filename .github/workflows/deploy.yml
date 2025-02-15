@@ -3,7 +3,8 @@ name: Deploy Jekyll Site
 on:
   push:
     branches:
-      - main  # Change this if your default branch has a different name
+      - main  # Change if your default branch is different
+  workflow_dispatch: # Allows manual triggering from GitHub UI
 
 jobs:
   build-deploy:
@@ -16,17 +17,16 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1' # Change if you need a different version
+          ruby-version: '3.1' # Change to match your local version
           bundler-cache: true
 
       - name: Install Dependencies
         run: |
           gem install bundler
-          bundle install --jobs 4 --retry 3
+          bundle install
 
       - name: Build Jekyll Site
-        run: |
-          bundle exec jekyll build
+        run: bundle exec jekyll build --trace
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
