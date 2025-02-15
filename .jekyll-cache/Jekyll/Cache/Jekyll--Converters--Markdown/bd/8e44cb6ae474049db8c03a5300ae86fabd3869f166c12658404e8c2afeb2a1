@@ -1,8 +1,0 @@
-I"+<h1 id="what-is-rsa">what is RSA?</h1>
-<p><a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)">RSA</a> is a <em>public-key</em>, or <em>asymmetric</em>, encryption algorithm.
-In contrast to <em>symmetric</em> algorithms, like <a href="https://en.wikipedia.org/wiki/Data_Encryption_Standard">DES</a> and
-<a href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a>, which use the same key for both encryption and
-decryption, RSA employs two distinct keys: a <strong>public</strong> key used to encrypt data, and a <strong>private key</strong> used to
-decrypt whatever was encrypted with the public one. The beauty of public-key encryption is that the parties involved
-never need to exchange a master key, meaning that communications can be securely encrypted without any prior contact.</p>
-:ET

@@ -1,0 +1,48 @@
+I"�
+<h1 id="power-sets">power sets</h1>
+<p>The power set of a set is the set of all its subsets, or a collection of all the different combinations of items
+contained in that given set: in this write-up, we’ll briefly explore the math behind power sets, and derive and compare
+three different algorithms used to generate them.</p>
+
+<h2 id="sets-primer">sets: primer</h2>
+<p>To refresh our memories: a <a href="http://en.wikipedia.org/wiki/Set_(mathematics)">set</a>, the building block of <a href="http://en.wikipedia.org/wiki/Set_theory">set
+theory</a><sup id="link1"><a href="#note1">1</a></sup>, is a collection of any number of
+unique objects whose order does not matter. A set is expressed using bracket notation, like \(\{1, 2, 3\}\), and an
+empty, or <strong>null</strong>, set is represented using either of \(\emptyset\) and \(\{\}\). Because sets are order-agnostic, we
+can say that the \(\{1, 2, 3\}\) and \(\{3, 1, 2\}\) are equal, and, because they contain only distinct members,
+something like \(\{1, 1, 2\}\) is invalid.</p>
+
+<h2 id="subsets-and-the-power-set">subsets and the power set</h2>
+<p>The <a href="http://en.wikipedia.org/wiki/Subset">subset</a> of a set is any combination (the null set included) of its members,
+such that it is contained inside the superset; \(\{a, b\}\), then, is a subset of \(\{a, b, c\}\), while \(\{a, d\}\)
+is not. If a subset contains <em>all</em> of the members of the parent set (ie, it’s a copy), we call it an <strong>improper</strong>
+subset – otherwise, it’s <strong>proper</strong>. Finally, the <a href="http://en.wikipedia.org/wiki/Power_set">power set</a> of a set is the
+collection of all of its subsets, so the power set of \(\{a, b, c\}\) is:</p>
+
+\[\{
+    \{\},
+    \{a\},
+    \{b\},
+    \{c\},
+    \{a, b\},
+    \{a, c\},
+    \{b, c\},
+    \{a, b, c\}
+\}\]
+
+<p>Below is a test with Rouge:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">hello</span>
+  <span class="nb">puts</span> <span class="s2">"Hello, world!"</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<hr />
+
+<p><span id="note1"><a href="#link1">1</a></span>: (completely tangentially) whenever I mention set theory I can’t help but think of
+the infamous <a href="http://en.wikipedia.org/wiki/Principia_Mathematica">Principia Mathematica</a>: a staggering, three-volume
+attempt to axiomatize all of mathematics, published by <a href="http://en.wikipedia.org/wiki/Bertrand_Russell">Bertrand
+Russell</a> and <a href="http://en.wikipedia.org/wiki/Alfred_North_Whitehead">Alfred North
+Whitehead</a> in 1910-‘13, that relied heavily on sets. It’s
+notorious, amongst other things, for proving \(1 + 1 = 2\) in no less than 379 pages. Check it out.</p>
+:ET

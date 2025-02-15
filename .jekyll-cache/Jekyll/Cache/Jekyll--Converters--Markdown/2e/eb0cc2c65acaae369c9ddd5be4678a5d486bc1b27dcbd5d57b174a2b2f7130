@@ -1,5 +1,0 @@
-I"™<h1 id="case-study-a-recursive-descent-parser">case study: a recursive-descent parser</h1>
-<p>I recently stumbled across a practical use-case for simulated exceptions in C while writing a recursive-descent JSON
-parser for fun and profit. In this quick write-up, Iâ€™ll give a high-level overview of the problems that I ran into, why
-exceptions were ideal for error handling, and how I emulated them in C.</p>
-:ET

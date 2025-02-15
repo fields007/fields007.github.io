@@ -4,6 +4,10 @@ files_url: /data
 description: Fields - blog about mathematics, physics and philosophy.
 permalink: /articles/:title
 markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+future: true
 lsi: true
 exclude: [Gemfile, Gemfile.lock, CNAME, README.md, publish.sh, Makefile]
 defaults:
