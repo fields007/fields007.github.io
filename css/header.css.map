@@ -1,0 +1,14 @@
+{
+	"version": 3,
+	"file": "header.css",
+	"sources": [
+		"header.sass",
+		"_sass/_variables.sass"
+	],
+	"sourcesContent": [
+		"@import \"variables\";\n\n$numMenuItems: 5;\n\ndiv#header {\n\tborder-bottom: 1px solid $baseColor1;\n\tmargin-bottom: 30px;\n\tpadding-top: 30px;\n\tpadding-bottom: 20px;\n\ttext-align: center;\n\n\tul > li {\n\t\tdisplay: inline-block;\n\t\ttext-align: center;\n\t\tmin-width: 60px;\n\t\twidth: 100% / $numMenuItems; } }\n",
+		"$width: 600px;\n$baseColor1: #1ba598;\n$baseColor2: #777;\n"
+	],
+	"names": [],
+	"mappings": "AAIA,AAAA,GAAG,AAAA,OAAO,AAAC,CACV,aAAa,CAAE,GAAG,CAAC,KAAK,CCJZ,OAAO,CDKnB,aAAa,CAAE,IAAI,CACnB,WAAW,CAAE,IAAI,CACjB,cAAc,CAAE,IAAI,CACpB,UAAU,CAAE,MAAM,CAMe,AAXlC,AAOC,GAPE,AAAA,OAAO,CAOT,EAAE,CAAG,EAAE,AAAC,CACP,OAAO,CAAE,YAAY,CACrB,UAAU,CAAE,MAAM,CAClB,SAAS,CAAE,IAAI,CACf,KAAK,CAAE,GAAoB,CAAG"
+}

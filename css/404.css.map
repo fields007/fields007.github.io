@@ -1,0 +1,14 @@
+{
+	"version": 3,
+	"file": "404.css",
+	"sources": [
+		"404.sass",
+		"_sass/_variables.sass"
+	],
+	"sourcesContent": [
+		"@import \"variables\";\n\ndiv.error {\n\tpadding-top: 10%;\n\ttext-align: center;\n\n\tspan.error {\n\t\tcolor: $baseColor1;\n\t\tfont-size: 5.5em;\n\n\t\tspan {\n\t\t\t&#light {\n\t\t\t\tcolor: #aaa; }\n\n\t\t\t&#dark {\n\t\t\t\tcolor: $baseColor2; } } } }\n",
+		"$width: 600px;\n$baseColor1: #1ba598;\n$baseColor2: #777;\n"
+	],
+	"names": [],
+	"mappings": "AAEA,AAAA,GAAG,AAAA,MAAM,AAAC,CACT,WAAW,CAAE,GAAG,CAChB,UAAU,CAAE,MAAM,CAWY,AAb/B,AAIC,GAJE,AAAA,MAAM,CAIR,IAAI,AAAA,MAAM,AAAC,CACV,KAAK,CCNM,OAAO,CDOlB,SAAS,CAAE,KAAK,CAOW,AAb7B,AASG,GATA,AAAA,MAAM,CAIR,IAAI,AAAA,MAAM,CAIT,IAAI,AACF,MAAM,AAAC,CACP,KAAK,CAAE,IAAI,CAAG,AAVlB,AAYG,GAZA,AAAA,MAAM,CAIR,IAAI,AAAA,MAAM,CAIT,IAAI,AAIF,KAAK,AAAC,CACN,KAAK,CCbI,IAAI,CDaQ"
+}

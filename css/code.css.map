@@ -1,0 +1,14 @@
+{
+	"version": 3,
+	"file": "code.css",
+	"sources": [
+		"code.sass",
+		"_sass/_mixins.sass"
+	],
+	"sourcesContent": [
+		"@import \"mixins\";\n\npre {\n\toverflow: auto;\n\tpadding: 10px;\n\tmargin: 0;\n\twhite-space: pre; }\n\ndiv.highlight {\n\t@include vendor(border-radius, 4px);\n\n\tbackground-color: #f0eeee;\n\tborder: 1px solid #bbb;\n\tfont-size: 0.95em;\n\tline-height: 1em;\n\tmargin-bottom: 20px; }\n\ncode.inline {\n\tbackground-color: #e5e5e5;\n\tpadding: 2px 4px; }\n",
+		"/*\n * Insert vendor prefixes for a property.\n *\n * $property : A CSS property.\n * $value : The value corresponding to the property `$property`.\n */\n@mixin vendor($property, $value) {\n\t-webkit-#{$property}: $value;\n\t-moz-#{$property}: $value;\n\t-ms-#{$property}: $value;\n\t-o-#{$property}: $value;\n\t#{$property}: $value; }\n\n/*\n * Insert Fontspring bulletproof font statements.\n *\n * $name: The root name of each font file; each one is assumed to be located in\n *      `/fonts/$name/`. Also the value of the `font-family` name assigned to\n *      the font.\n */\n@mixin font($name) {\n\t$path: \"../fonts/\" + $name + \"/\" + $name;\n\t@font-face {\n\t\tfont-family: $name;\n\t\tsrc: url($path);\n\t\tsrc: url($path) format(\"embedded-opentype\"), url($path + \".eot?#iefix\") format(\"woff\"), url($path + \".woff\") format(\"truetype\"), url($path + \".ttf\") format(\"svg\");\n\t\tfont-weight: normal;\n\t\tfont-style: normal; } }\n\n/*\n * Insert a CSS ease-out transition.\n *\n * $time : The time the transition should last.\n */\n@mixin transition($time) {\n\t@include vendor(transition, all $time ease-out); }\n\n/*\n * Add portable opacity styling.\n *\n * $opacity : The desired opacity level.\n */\n@mixin opacity($opacity) {\n\t@include vendor(opacity, $opacity);\n\tfilter: alpha(opacity=$opacity); }\n\n.t3 {\n\t@include transition(0.3s); }\n"
+	],
+	"names": [],
+	"mappings": "AC8CA,AAAA,GAAG,AAAC,CAvCH,kBAAoB,CA4BQ,GAAG,CAYX,GAAI,CAZc,QAAQ,CA3B9C,eAAiB,CA2BW,GAAG,CAYX,GAAI,CAZc,QAAQ,CA1B9C,cAAgB,CA0BY,GAAG,CAYX,GAAI,CAZc,QAAQ,CAzB9C,aAAe,CAyBa,GAAG,CAYX,GAAI,CAZc,QAAQ,CAxB9C,UAAY,CAwBgB,GAAG,CAYX,GAAI,CAZc,QAAQ,CAYlB,AD7C7B,AAAA,GAAG,AAAC,CACH,QAAQ,CAAE,IAAI,CACd,OAAO,CAAE,IAAI,CACb,MAAM,CAAE,CAAC,CACT,WAAW,CAAE,GAAG,CAAG,AAEpB,AAAA,GAAG,AAAA,UAAU,AAAC,CCDb,qBAAoB,CDEW,GAAG,CCDlC,kBAAiB,CDCc,GAAG,CCAlC,iBAAgB,CDAe,GAAG,CCClC,gBAAe,CDDgB,GAAG,CCElC,aAAY,CDFmB,GAAG,CAElC,gBAAgB,CAAE,OAAO,CACzB,MAAM,CAAE,cAAc,CACtB,SAAS,CAAE,MAAM,CACjB,WAAW,CAAE,GAAG,CAChB,aAAa,CAAE,IAAI,CAAG,AAEvB,AAAA,IAAI,AAAA,OAAO,AAAC,CACX,gBAAgB,CAAE,OAAO,CACzB,OAAO,CAAE,OAAO,CAAG"
+}

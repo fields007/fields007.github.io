@@ -1,0 +1,16 @@
+{
+	"version": 3,
+	"file": "tags.css",
+	"sources": [
+		"tags.sass",
+		"_sass/_variables.sass",
+		"_sass/_tag_cloud.sass"
+	],
+	"sourcesContent": [
+		"@import \"variables\";\n@import \"tag_cloud\";\n\ndiv#cloud {\n\tmargin-bottom: 20px; }\n\nh1.tag-name {\n\tborder-top: 1px solid #aaa;\n\tfont-size: 1.3em;\n\tmargin-top: 30px;\n\tpadding-top: 10px; }\n\nul {\n\tmargin: 0;\n\tmargin-bottom: 40px; }\n\nspan.date {\n\tcolor: $baseColor1;\n\tfloat: right; }\n",
+		"$width: 600px;\n$baseColor1: #1ba598;\n$baseColor2: #777;\n",
+		"div#cloud {\n\tmargin-left: auto;\n\tmargin-right: auto;\n\ttext-align: center;\n\twidth: 100%;\n\tmax-width: 300px;\n\n\ta {\n\t\tpadding: 8px; }\n\n\tspan > a {\n\t\tpadding: 0; } }\n"
+	],
+	"names": [],
+	"mappings": "AEAA,AAAA,GAAG,AAAA,MAAM,AAAC,CACT,WAAW,CAAE,IAAI,CACjB,YAAY,CAAE,IAAI,CAClB,UAAU,CAAE,MAAM,CAClB,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,KAAK,CAMA,AAXjB,AAOC,GAPE,AAAA,MAAM,CAOR,CAAC,AAAC,CACD,OAAO,CAAE,GAAG,CAAG,AARjB,AAUC,GAVE,AAAA,MAAM,CAUR,IAAI,CAAG,CAAC,AAAC,CACR,OAAO,CAAE,CAAC,CAAG,AFRf,AAAA,GAAG,AAAA,MAAM,AAAC,CACT,aAAa,CAAE,IAAI,CAAG,AAEvB,AAAA,EAAE,AAAA,SAAS,AAAC,CACX,UAAU,CAAE,cAAc,CAC1B,SAAS,CAAE,KAAK,CAChB,UAAU,CAAE,IAAI,CAChB,WAAW,CAAE,IAAI,CAAG,AAErB,AAAA,EAAE,AAAC,CACF,MAAM,CAAE,CAAC,CACT,aAAa,CAAE,IAAI,CAAG,AAEvB,AAAA,IAAI,AAAA,KAAK,AAAC,CACT,KAAK,CChBO,OAAO,CDiBnB,KAAK,CAAE,KAAK,CAAG"
+}

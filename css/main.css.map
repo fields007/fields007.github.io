@@ -1,0 +1,16 @@
+{
+	"version": 3,
+	"file": "main.css",
+	"sources": [
+		"main.sass",
+		"_sass/_variables.sass",
+		"_sass/_mixins.sass"
+	],
+	"sourcesContent": [
+		"@import \"variables\";\n@import \"mixins\";\n\nhtml, body {\n\theight: 100%;\n\tpadding: 0;\n\tmargin: 0; }\n\ndiv#main {\n\tfont-family: \"Source Sans Pro\", sans-serif, helvetica;\n\tfont-size: 1em;\n\tline-height: 1.34em;\n\theight: 100%;\n\tmargin-left: auto;\n\tmargin-right: auto;\n\tmax-width: $width;\n\tpadding: 0 18px; }\n\na {\n\t@extend .t3;\n\n\tcolor: $baseColor2;\n\ttext-decoration: none;\n\n\t&:hover {\n\t\tcolor: $baseColor1; } }\n\nul {\n\tlist-style: none;\n\tpadding: 0;\n\tmargin: 0; }\n\nh1, h2, h3, h4, h5, h6 {\n\tcolor: $baseColor1;\n\tline-height: 1.1em;\n\tmargin: 0;\n\tmargin-bottom: 10px; }\n",
+		"$width: 600px;\n$baseColor1: #1ba598;\n$baseColor2: #777;\n",
+		"/*\n * Insert vendor prefixes for a property.\n *\n * $property : A CSS property.\n * $value : The value corresponding to the property `$property`.\n */\n@mixin vendor($property, $value) {\n\t-webkit-#{$property}: $value;\n\t-moz-#{$property}: $value;\n\t-ms-#{$property}: $value;\n\t-o-#{$property}: $value;\n\t#{$property}: $value; }\n\n/*\n * Insert Fontspring bulletproof font statements.\n *\n * $name: The root name of each font file; each one is assumed to be located in\n *      `/fonts/$name/`. Also the value of the `font-family` name assigned to\n *      the font.\n */\n@mixin font($name) {\n\t$path: \"../fonts/\" + $name + \"/\" + $name;\n\t@font-face {\n\t\tfont-family: $name;\n\t\tsrc: url($path);\n\t\tsrc: url($path) format(\"embedded-opentype\"), url($path + \".eot?#iefix\") format(\"woff\"), url($path + \".woff\") format(\"truetype\"), url($path + \".ttf\") format(\"svg\");\n\t\tfont-weight: normal;\n\t\tfont-style: normal; } }\n\n/*\n * Insert a CSS ease-out transition.\n *\n * $time : The time the transition should last.\n */\n@mixin transition($time) {\n\t@include vendor(transition, all $time ease-out); }\n\n/*\n * Add portable opacity styling.\n *\n * $opacity : The desired opacity level.\n */\n@mixin opacity($opacity) {\n\t@include vendor(opacity, $opacity);\n\tfilter: alpha(opacity=$opacity); }\n\n.t3 {\n\t@include transition(0.3s); }\n"
+	],
+	"names": [],
+	"mappings": "AE8CA,AAAA,GAAG,CF5BH,CAAC,AE4BG,CAvCH,kBAAoB,CA4BQ,GAAG,CAYX,GAAI,CAZc,QAAQ,CA3B9C,eAAiB,CA2BW,GAAG,CAYX,GAAI,CAZc,QAAQ,CA1B9C,cAAgB,CA0BY,GAAG,CAYX,GAAI,CAZc,QAAQ,CAzB9C,aAAe,CAyBa,GAAG,CAYX,GAAI,CAZc,QAAQ,CAxB9C,UAAY,CAwBgB,GAAG,CAYX,GAAI,CAZc,QAAQ,CAYlB,AF5C7B,AAAA,IAAI,CAAE,IAAI,AAAC,CACV,MAAM,CAAE,IAAI,CACZ,OAAO,CAAE,CAAC,CACV,MAAM,CAAE,CAAC,CAAG,AAEb,AAAA,GAAG,AAAA,KAAK,AAAC,CACR,WAAW,CAAE,wCAAwC,CACrD,SAAS,CAAE,GAAG,CACd,WAAW,CAAE,MAAM,CACnB,MAAM,CAAE,IAAI,CACZ,WAAW,CAAE,IAAI,CACjB,YAAY,CAAE,IAAI,CAClB,SAAS,CCfF,KAAK,CDgBZ,OAAO,CAAE,MAAM,CAAG,AAEnB,AAAA,CAAC,AAAC,CAGD,KAAK,CCnBO,IAAI,CDoBhB,eAAe,CAAE,IAAI,CAGG,AAPzB,AAMC,CANA,CAME,KAAK,AAAC,CACP,KAAK,CCxBM,OAAO,CDwBG,AAEvB,AAAA,EAAE,AAAC,CACF,UAAU,CAAE,IAAI,CAChB,OAAO,CAAE,CAAC,CACV,MAAM,CAAE,CAAC,CAAG,AAEb,AAAA,EAAE,CAAE,EAAE,CAAE,EAAE,CAAE,EAAE,CAAE,EAAE,CAAE,EAAE,AAAC,CACtB,KAAK,CChCO,OAAO,CDiCnB,WAAW,CAAE,KAAK,CAClB,MAAM,CAAE,CAAC,CACT,aAAa,CAAE,IAAI,CAAG"
+}
