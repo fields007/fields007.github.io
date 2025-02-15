@@ -1,7 +1,7 @@
 name: ields
-url: https://sevko.io
+url: ""
 files_url: /data
-description: Severyn Kozak's personal portfolio site and blog.
+description: Fields - blog about mathematics, physics and philosophy.
 permalink: /articles/:title
 markdown: kramdown
 lsi: true
