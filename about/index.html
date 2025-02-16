@@ -71,67 +71,42 @@
 </div>
 
 			
-			<head>
-    <meta charset="UTF-8">
-    <title>About</title>
-  
-    <!-- Only override layout on mobile -->
-    <style>
-      @media (max-width: 768px) {
-        /* Target the div that has display: flex in your inline style */
-        #about > div[style*="display: flex;"] {
-          display: block !important; /* Stack vertically on mobile */
-          text-align: left;         /* Keep left alignment (or center if you prefer) */
-        }
-        /* Center the image block and add spacing below it */
-        #about #left {
-          margin: 0 auto 20px auto !important;
-        }
-      }
-    </style>
-  </head>
-  <body>
-  
-  <div id="about">
-      <!-- Text above the title -->
-      <p style="text-align: center; max-width: 700px; margin: 0 auto 20px auto;">
-          This is a short description about the contributors of this website. 
-          Their passion, dedication, and contributions make this possible.
-      </p>
-  
-      <!-- Contributors Title -->
-      <h1 style="font-size: 2.2em; text-align: center; margin-top: 40px;">
-        Contributors
-      </h1>
-  
-      <!-- Flex container for desktop -->
-      <div style="display: flex; align-items: center; text-align: left;">
-          <!-- Left image -->
-          <div id="left" style="flex-shrink: 0; margin-right: 20px;">
-              <img src="/my_photo.jpg" alt="A photo of me." 
-                   style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
-          </div>
-  
-          <!-- Right text content -->
-          <div id="right">
-              <h1 style="margin-top: 0;">Jan Masák</h1>
-              <p>
-                Hi! I'm Jan Masák. I studied [Your Field] at [Your University] 
-                and now [Briefly Describe What You Do].
-                Check out my <a href="/articles">posts</a>, 
-                <a href="mailto:jan2001masak@gmail.com">get in touch</a>, 
-                <a href="https://dspace.cvut.cz/handle/10467/111416">bachelor thesis</a>, 
-                <a href="/data/CV.pdf" target="_blank">CV</a>.
-              </p>
-              <div id="links">
-                <div><a id="github" href="https://github.com/fields007"></a></div>
-                <div><a id="linkedin" href="https://www.linkedin.com/in/jan-masak"></a></div>
-              </div>
+			<div id="about">
+  <!-- Lorem Ipsum Text Above the Title -->
+  <p style="text-align: center; max-width: 700px; margin: 0 auto 20px auto;">
+      This is a short description about the contributors of this website. 
+      Their passion, dedication, and contributions make this possible.
+  </p>
+
+  <!-- Contributors Title (Smaller & More Space Below) -->
+  <h1 style="font-size: 2.2em; text-align: center; margin-top: 40px;">Contributors</h1>
+
+  <div style="display: flex; align-items: center; text-align: left;">
+      <!-- Profile Image on the Left -->
+      <div id="left" style="flex-shrink: 0; margin-right: 20px;">
+          <img src="/my_photo.jpg" alt="A photo of me." 
+               style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
+      </div>
+
+      <!-- Right Content -->
+      <div id="right">
+          <!-- Name -->
+          <h1 style="margin-top: 0;">Jan Masák</h1>
+
+          <!-- Description -->
+          <p>
+              Hi! I'm Jan Masák. I studied [Your Field] at [Your University] and now [Briefly Describe What You Do].
+              Check out my <a href="/articles">posts</a>, <a href="mailto:jan2001masak@gmail.com">get in touch</a>, <a href="https://dspace.cvut.cz/handle/10467/111416">bachelor thesis</a>, <a href="/data/CV.pdf" target="_blank">CV</a>.
+          </p>
+
+          <!-- Links (Unchanged) -->
+          <div id="links">
+              <div><a id="github" href="https://github.com/janmasak"></a></div>
+              <div><a id="linkedin" href="https://www.linkedin.com/in/jan-masak"></a></div>
           </div>
       </div>
   </div>
-  
-  </body>
+</div>
 		</div>
 
 	</body>
