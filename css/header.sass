@@ -3,17 +3,46 @@
 
 @import variables
 
-$numMenuItems: 5
-
 div#header
-	border-bottom: 1px solid $baseColor1
 	margin-bottom: 30px
-	padding-top: 30px
-	padding-bottom: 20px
+	padding-top: 24px
 	text-align: center
 
-	ul > li
-		display: inline-block
+	// φ / logo
+	h1
+		font-size: 2.0em
+		margin: 0 auto 10px auto
 		text-align: center
-		min-width: 60px
-		width: 100% / $numMenuItems
+
+	// Nav + underline
+	ul
+		// shrink-wrap by default, but we can still cap it
+		display: inline-flex
+		justify-content: space-between
+		align-items: center
+		flex-wrap: nowrap
+		list-style: none
+
+		// kill any global ul indentation that causes right-shift
+		margin: 0 auto
+		padding: 0 !important
+
+		// underline + spacing
+		border-bottom: 2px solid $baseColor1
+		padding-bottom: 18px
+
+		// Make the underline not exceed the content width
+		// (If your content is narrower/wider, tweak 760px once.)
+		width: 100%
+		max-width: 760px
+
+	li
+		// spacing between items
+		margin: 0 2.2rem
+
+		a
+			font-size: 1.15em
+			padding: 0.4em 0
+			display: inline-block
+			white-space: nowrap
+			
