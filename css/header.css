@@ -1,3 +1,3 @@
-div#header{border-bottom:1px solid #1ba598;margin-bottom:30px;padding-top:30px;padding-bottom:20px;text-align:center}div#header ul>li{display:inline-block;text-align:center;min-width:60px;width:20%}
+div#header{margin-bottom:30px;padding-top:24px;text-align:center}div#header h1{font-size:2.0em;margin:0 auto 10px auto;text-align:center}div#header ul{display:inline-flex;justify-content:space-between;align-items:center;flex-wrap:nowrap;list-style:none;margin:0 auto;padding:0 !important;border-bottom:2px solid #1ba598;padding-bottom:18px;width:100%;max-width:760px}div#header li{margin:0 2.2rem}div#header li a{font-size:1.15em;padding:0.4em 0;display:inline-block;white-space:nowrap}
 
 /*# sourceMappingURL=header.css.map */
