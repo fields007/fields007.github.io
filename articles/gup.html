@@ -112,34 +112,27 @@
 
 \[\Delta a\, \Delta b \ge \frac{1}{2}|\langle [a,b]\rangle| .\]
 
-<p>Here \(\Delta a\) denotes the standard deviation of the measurements of observable \(a\). In this work we assume vanishing expectation values, so \(\Delta a\) directly characterizes the typical size of fluctuations.</p>
+<p>Here \(\Delta a\) denotes the standard deviation of the measurements of observable \(a\) and \(\langle \cdots \rangle\) is an expectation value (average of measurement values in this case of the commutator operator). In this work we assume vanishing expectation values of \(a\) and \(b\), so for instance \(\Delta a\) directly characterizes the typical size of fluctuations.</p>
 
 <p>For position \(x\) and momentum \(p\), the canonical commutation relation \([x,p] = i\hbar\) leads to the familiar Heisenberg uncertainty relation</p>
 
 \[\Delta x\, \Delta p \ge \frac{\hbar}{2} .\]
 
-<p>A basic physical intuition already follows from this formula: if one tries to localize a particle more and more precisely, the required momentum uncertainty grows.</p>
+<p>A basic physical intuition already follows from this formula: if one tries to localize a particle more and more precisely, the momentum uncertainty tends to grows .</p>
 
 <h2 id="motivation-for-generalized-uncertainty-relations">Motivation for generalized uncertainty relations</h2>
 
-<p>Many theoretical frameworks suggest that the standard uncertainty relation may be modified at very short distances. Motivations discussed in my work include, for example,</p>
-
-<ul>
-  <li>noncommutative geometry</li>
-  <li>curved momentum space</li>
-  <li>string theory</li>
-  <li>thought experiments</li>
-</ul>
+<p>Many theoretical frameworks suggest that the standard uncertainty relation may be modified at very short distances. These include for example numerous thought experiments, string theory, curved momentum space, noncommutative geometry, … Basis of many of these ideas is in one way or another existence of an effective minimal length scale.</p>
 
 <p>A commonly studied deformation is a <strong>generalized uncertainty relation</strong> (GUP) of the form,</p>
 
 \[\Delta x\, \Delta p \ge \frac{\hbar}{2}\left(1 + \beta (\Delta p)^2\right) ,\]
 
-<p>\(\beta\) being some constant. The plot below illustrates the qualitative consequence of this relation for the case \(\beta = \ell_p^2/\hbar^2\), where \(\ell_p\) is the Planck length.</p>
+<p>\(\beta\) being some constant of appropriate dimensions. The plot below illustrates the qualitative consequence of this relation for the case \(\beta = \ell_p^2/\hbar^2\), where \(\ell_p\) is the Planck length.</p>
 
 <p><img src="/data/GUP_images/minimal_length.svg" alt="Illustration of a minimal length" style="width: 70%; max-width: 500px; display: block; margin: 0 auto;" /></p>
 
-<p>In this plot the coloured region represents the allowed values of \(\Delta x\) and  \(\Delta p\). One can see that there is a minimum value of \(\Delta x\) which can be interpreted as existence of a <strong>minimal length</strong>, below which localization is no longer possible. While the precise interpretation varies between frameworks, this qualitative feature appears very robust. For instance, similar behavior arises in string theory due to the extended nature of strings.</p>
+<p>In this plot the coloured region represents the allowed values of \(\Delta x\) and \(\Delta p\). One can see that there is a minimum value of \(\Delta x\) (in this case precisely \(\ell_p\)) which can be interpreted as existence of a <strong>minimal length</strong>, below which localization is no longer possible. While the precise interpretation varies between frameworks, this qualitative feature appears very robust. For instance, similar behaviour arises in string theory due to the extended nature of strings.</p>
 
 <h2 id="reverse-quantisation-and-deformed-algebra">Reverse quantisation and deformed algebra</h2>
 
@@ -147,13 +140,13 @@
 
 \[\dot{x} = \{x,H\}, \qquad \dot{p} = \{p,H\} ,\]
 
-<p>where dots denote time derivatives, \(H\) is the Hamiltonian. These equations determine the trajectories of classical particles.</p>
+<p>where dots denote time derivatives and \(H\) is the Hamiltonian. These equations determine the trajectories of classical particles.</p>
 
-<p>Quantisation replaces Poisson brackets by commutators according to the rule</p>
+<p>When one wants to promote a classical theory to a quantum one follows procedure known as quantisation. The canonical quantisation procedure is to replace Poisson brackets as</p>
 
 \[\{a,b\} \longrightarrow \frac{1}{i\hbar}[a,b] .\]
 
-<p>In my thesis, I take the reverse perspective. Because commutators give us uncertainty relations, GUP motivates a deformed quantum algebra. In my work, I ask what classical structure corresponds would correspond to one such deformed algebra.</p>
+<p>In my thesis, I take the reverse perspective. Because commutators give us uncertainty relations, GUP motivates a deformed quantum algebra. In my work, I ask what classical structure corresponds to one such deformed algebra.</p>
 
 <p>Particularly I look at the <strong>Snyder algebra</strong><sup id="link2"><a href="#note2">2</a></sup>, given in the quantum theory by</p>
 
@@ -165,13 +158,13 @@
 
 <h2 id="deformed-solutions-of-general-relativity">Deformed solutions of general relativity</h2>
 
-<p>In general relativity, the geometry of spacetime is encoded in the metric \(g_{\mu\nu}\). Free test particles then follow geodesics, which can be derived from using the Hamiltonian formalism.</p>
+<p>In general relativity, the geometry of spacetime is encoded in the metric tensor \(g_{\mu\nu}\). Free test particles then follow geodesics, which can be derived using the Hamiltonian formalism.</p>
 
-<p>The Schwarzschild solution of general relativity for example describes the spacetime outside a spherically symmetric mass. It applies both to systems like the Solar System and to non-rotating black holes. A common visualization is Flamm’s paraboloid, shown below, which represents a spatial slice in the radial direction.</p>
+<p>The Schwarzschild solution of general relativity for example describes the spacetime outside a spherically symmetric mass. It applies to systems like the Solar System as well as, for example non-rotating black holes. A common visualization of this spacetime provides the Flamm’s paraboloid, shown below, which represents a spatial slice in the radial direction.</p>
 
 <p><img src="/data/GUP_images/schwarzshild.png" alt="Flamm's paraboloid for the Schwarzschild solution." style="width: 70%; max-width: 500px; display: block; margin: 0 auto;" /></p>
 
-<p>The Kerr solution generalizes this to rotating black holes and features additional structures such as an ergosphere and an inner horizon.</p>
+<p>The Kerr solution generalizes this to rotating black holes (though basically just to black holes) and features additional structures such as an ergosphere and an inner horizon.</p>
 
 <p><img src="/data/GUP_images/kerr.png" alt="Schematic structure of the Kerr spacetime." style="width: 70%; max-width: 500px; display: block; margin: 0 auto;" /></p>
 
@@ -189,19 +182,19 @@ J. Masák,
 <em>Generalized uncertainty relation and its use in cosmology</em>,
 Bachelor’s thesis,
 Faculty of Nuclear Sciences and Physical Engineering, Czech Technical University in Prague (2023),
-<a href="https://dspace.cvut.cz/handle/10467/111416">dspace.cvut.cz/handle/10467/111416</a>.</p>
+<a href="https://dspace.cvut.cz/handle/10467/111416" target="_blank">dspace.cvut.cz/handle/10467/111416</a>.</p>
 
 <p><span id="note2"><a href="#link2">2</a></span>:
 H. S. Snyder,
 <em>Quantized Space-Time</em>,
 Physical Review 71 (1947), 38–41,
-<a href="https://doi.org/10.1103/PhysRev.71.38">doi:10.1103/PhysRev.71.38</a>.</p>
+<a href="https://doi.org/10.1103/PhysRev.71.38" target="_blank">doi:10.1103/PhysRev.71.38</a>.</p>
 
 <p><span id="note3"><a href="#link3">3</a></span>:
 S. Mignemi and R. Strajn,
 <em>Geodesics in the Schwarzschild metric with Snyder dynamics</em>,
 Phys. Rev. D <strong>90</strong>, 044019 (2014),
-<a href="https://doi.org/10.1103/PhysRevD.90.044019">doi:10.1103/PhysRevD.90.044019</a>.</p>
+<a href="https://doi.org/10.1103/PhysRevD.90.044019" target="_blank">doi:10.1103/PhysRevD.90.044019</a>.</p>
 
 	
 </div>

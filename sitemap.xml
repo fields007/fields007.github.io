@@ -34,6 +34,14 @@
 	
 		
 			<url>
+				<loc>https://fields007.github.io/about/</loc>
+				<changefreq>monthly</changefreq>
+				<priority>1.0</priority>
+			 </url>
+		
+	
+		
+			<url>
 				<loc>https://fields007.github.io/articles/tags/</loc>
 				<changefreq>weekly</changefreq>
 				<priority>0.6</priority>
@@ -45,14 +53,6 @@
 				<loc>https://fields007.github.io/articles/</loc>
 				<changefreq>weekly</changefreq>
 				<priority>0.7</priority>
-			 </url>
-		
-	
-		
-			<url>
-				<loc>https://fields007.github.io/about/</loc>
-				<changefreq>monthly</changefreq>
-				<priority>1.0</priority>
 			 </url>
 		
 	
