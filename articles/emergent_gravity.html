@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>
+			Emergent gravity
+		</title>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="description" content="My research project">
+		<meta name="viewport" content="initial-scale=1">
+
+		<style>
+			div#header li#Emergent gravity a {
+				color: $baseColor1;
+				font-weight: bold;
+			}
+		</style>
+
+		<link rel=”author” href="https://plus.google.com/109642458345919934865/">
+		<link rel="stylesheet" type="text/css" href="/css/main.css">
+		<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
+
+		<!-- Page-specific stylesheets.  -->
+		
+		
+			<link rel="stylesheet" type="text/css" href="/css/header.css">
+		
+		
+			<link rel="stylesheet" type="text/css" href="/css/code_color_scheme.css">
+			<link rel="stylesheet" type="text/css" href="/css/code.css">
+			<link rel="stylesheet" type="text/css" href="/css/post.css">
+		
+
+		<!-- MathJax configuration. -->
+		
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+		
+
+		
+
+		<!-- Bill. -->
+		<script>
+			console.log("_   /|\n\\'o.O'\n=(___)=\n   U\n\nHey there.");
+		</script>
+
+		<!-- Google Analytics. -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-35H84RF8P2"></script>
+			<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'G-35H84RF8P2');
+		</script>
+	</head>
+	<body>
+		<!--[if lt IE 7]>
+			<p>
+				You are using an <strong>outdated</strong> browser. Please
+				<a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.
+			</p>
+		<![endif]-->
+
+		<div id="main">
+			
+				<div id="header">
+	<h2>ϕ</h2>
+	<ul>
+		<li id="home"><a href="/">home</a></li>
+		<li id="about"><a href="/about">about</a></li>
+		<li id="articles"><a href="/articles">articles</a></li>
+		<li id="contact"><a href="mailto:jan2001masak@gmail.com">contact</a></li>
+	</ul>
+</div>
+
+			
+			<div id="meta">
+	<h1>Emergent gravity</h1>
+	<span>15 Aug 2025</span>
+	<div id="tags">
+		<span>tags:</span>
+		
+			
+				<a href="/articles/tags#general relativity">general relativity</a>,
+			
+		
+			
+				<a href="/articles/tags#holography">holography</a>,
+			
+		
+			
+				<a href="/articles/tags#black holes">black holes</a>,
+			
+		
+			
+				<a href="/articles/tags#thermodynamics">thermodynamics</a>,
+			
+		
+			
+		
+		<a href="/articles/tags#academic work">academic work</a>
+	</div>
+</div>
+
+<div id="post">
+	
+		<noscript>
+			<p id="mathjax-warning">
+				<b>Warning:</b> This post contains math blocks rendered with the
+				<a href="https://www.mathjax.org/">MathJax</a> JavaScript library. If you don't enable JavaScript in
+				your browser, none of them will display.
+			</p>
+		</noscript>
+	
+	
+		<p>This article is based on my research project<sup id="link1"><a href="#note1">1</a></sup> in mathematical physics. I outline the central ideas in broader terms. The project examines the possibility that gravity may be an emergent phenomenon rather than a fundamental interaction. It begins with black hole thermodynamics and entropy bounds, including Bousso’s bound, and discusses the holographic principle and its realization in the AdS/CFT correspondence. Finally, it presents selected approaches to emergent gravity, most notably Jacobson’s thermodynamic derivation of Einstein’s equations and Verlinde’s entropic gravity.</p>
+
+<h2 id="why-consider-gravity-as-emergent">Why consider gravity as emergent?</h2>
+
+<p>One of the central open problems in modern theoretical physics is the formulation of a consistent theory of quantum gravity. General relativity describes gravity as curvature of spacetime, governed by the Einstein equations</p>
+
+\[R_{\mu\nu} - \frac{1}{2} R g_{\mu\nu}
+= 8\pi G \, T_{\mu\nu}.\]
+
+<p>At low energies this classical theory works remarkably well. However, attempts to quantize gravity directly face serious difficulties. From the point of view of quantum field theory, general relativity is non-renormalizable, even though it can be treated as an effective field theory at low energies.</p>
+
+<p>These obstacles motivate a different question. Instead of quantizing gravity in the same way as other interactions, could gravity itself be an emergent phenomenon, analogous to hydrodynamics or elasticity?</p>
+
+<p>An important hint in this direction appeared already in the 1970s through an unexpected connection between black holes and thermodynamics.</p>
+
+<h2 id="black-hole-thermodynamics">Black hole thermodynamics</h2>
+
+<p>In 1973, Bardeen, Carter and Hawking formulated the <strong>four laws of black hole dynamics</strong><sup id="link2"><a href="#note2">2</a></sup>.<br />
+These are theorems of classical general relativity, yet they closely resemble the laws of thermodynamics.</p>
+
+<p>For a stationary black hole:</p>
+
+<ol>
+  <li>
+    <p>The surface gravity \(\kappa\) is constant over the event horizon.</p>
+  </li>
+  <li>
+    <p>For stationary perturbations one has</p>
+
+\[\delta M =
+\frac{\kappa}{8\pi} \, \delta A
++ \omega \, \delta J
++ \phi \, \delta Q ,\]
+
+    <p>where \(M\) is the mass, \(A\) the horizon area, \(J\) the angular momentum and \(Q\) the charge.</p>
+  </li>
+  <li>
+    <p>The area of the event horizon never decreases.</p>
+  </li>
+  <li>
+    <p>It is impossible to reduce \(\kappa\) to zero by a finite sequence of physical operations.</p>
+  </li>
+</ol>
+
+<p>If one formally identifies surface gravity with temperature and area with entropy, the analogy with thermodynamics becomes apparent. Initially, this was widely regarded as just that, an analogy. In classical general relativity, black holes are perfect absorbers and do not radiate. It was therefore unclear in what sense they could have a temperature.</p>
+
+<p>Jacob Bekenstein argued that black holes should carry entropy proportional to their horizon area. Otherwise, when matter with entropy falls into a black hole, there would be no way to verify that the second law of thermodynamics continues to hold. His proposal was controversial at the time.</p>
+
+<p>Stephen Hawking set out to show that Bekenstein was wrong. Instead, in his semiclassical calculation of particle creation in a black hole background<sup id="link3"><a href="#note3">3</a></sup>, he discovered that black holes radiate as black bodies with temperature</p>
+
+\[T_H = \frac{\kappa}{2\pi}.\]
+
+<p>The analogy became physical. Combining this result with the first law fixes the entropy of a black hole to be</p>
+
+\[S_{BH} = \frac{A}{4}\]
+
+<p>in Planck units.</p>
+
+<p>This so called <strong>Bekenstein–Hawking formula</strong> shows that black hole entropy is proportional to horizon area rather than volume. This fact will play a central role in what follows.</p>
+
+<p>It suggests that gravity may impose a fundamental limitation on the number of independent degrees of freedom that can be associated with a spatial region. We now turn to entropy bounds and the holographic principle, where this idea is developed in a more general and covariant form.</p>
+
+<h2 id="entropy-bounds-and-holography">Entropy bounds and holography</h2>
+
+<p>The proportionality \(S_{BH} \propto A\) raises a natural question. Is the area scaling a special feature of black holes, or does it reflect a more general principle about gravity?</p>
+
+<p>In ordinary local quantum field theory without gravity, entropy typically scales with volume. One expects the number of degrees of freedom in a region to be proportional to its volume. The Bekenstein–Hawking formula suggests something radically different, the maximal entropy contained in a region may scale with the area of its boundary.</p>
+
+<p>This idea is sharpened by entropy bounds.</p>
+
+<p>Among them, the most robust and covariant formulation is the <strong>Bousso’s covariant entropy bound</strong><sup id="link4"><a href="#note4">4</a></sup>:</p>
+
+\[S[L(B)] \le \frac{A(B)}{4}.\]
+
+<p>Here \(B\) is a \(d-2\) dimensional spacelike surface and \(L(B)\) is a <strong>light-sheet</strong> constructed from it.</p>
+
+<p>A light-sheet is defined as a null hypersurface generated by light rays orthogonal to \(B\) whose expansion is initially non-positive. The null geodesics are followed until they reach a caustic or their expansion becomes positive. Intuitively, one selects those light rays that are locally contracting.</p>
+
+<p><img src="/data/img/emergent_gravity/light-sheets.png" alt="Illustration of null congruences and light-sheets" style="width: 70%; max-width: 500px; display: block; margin: 0 auto;" /></p>
+
+<p>To illustrate this notion, consider for example \(B\) to be a circle in 3D Minkowski space as in the image above. There are four null congruences orthogonal to it:  future-outgoing \(\mathcal{C}_1\) , past-ingoing \(\mathcal{C}_2\), future-ingoing \(\mathcal{C}_3\) and past-outgoing \(\mathcal{C}_4\). In the figure, the congruences that qualify as light-sheets are the contracting cones \(\mathcal{C}_2\) and \(\mathcal{C}_3\).</p>
+
+<p>The focusing of null geodesics by matter, encoded in the Raychaudhuri equation, ensures that entropy flux through such contracting congruences is constrained by the initial area.</p>
+
+<p>The von Neumann entropy of a quantum system is bounded above by the logarithm of the dimension of its Hilbert space. The covariant bound therefore suggests a limitation on the dimension of the Hilbert space describing a region.</p>
+
+<p>We may formulate this idea precisely as follows.</p>
+
+<blockquote>
+  <p><strong>Conjecture (Holographic principle):</strong><br />
+In some possibly emergent spacetime, let \(B\) be a \(d-2\) dimensional spacelike surface and let \(L(B)\) denote one of its light-sheets. If \(\mathcal{H}[L(B)]\) is the Hilbert space describing the degrees of freedom on \(L(B)\) in the final theory, then</p>
+
+\[\dim \mathcal{H}[L(B)] \le e^{A(B)/4}.\]
+</blockquote>
+
+<p>If such a bound holds universally, the fundamental number of degrees of freedom associated with a region is controlled by boundary area rather than bulk volume. This statement is known as the holographic principle.</p>
+
+<p>Its most concrete realization to date is the AdS/CFT correspondence.</p>
+
+<h2 id="adscft-correspondence">AdS/CFT correspondence</h2>
+
+<p>A particularly explicit realization of the holographic principle is provided by the AdS/CFT correspondence, originally conjectured by Maldacena<sup id="link5"><a href="#note5">5</a></sup>. It is widely regarded as one of the most concrete and far-reaching insights in the search for a consistent theory of quantum gravity.</p>
+
+<p>In its most studied example, the duality states that a theory of quantum gravity, namely type IIB superstring theory in an asymptotically \(\mathrm{AdS}_5 \times S^5\) spacetime with \(N\) units of five-form flux on \(S^5\), is exactly equivalent to a quantum field theory without gravity — the 3+1 dimensional \(\mathcal{N}=4\) supersymmetric Yang–Mills theory with gauge group \(U(N)\).</p>
+
+<p>The bulk theory is ten-dimensional and contains dynamical gravity. The boundary theory is four-dimensional and contains no graviton at all. Nevertheless, the two descriptions are conjectured to be fully equivalent. Every physical observable in the gravitational theory has a precise counterpart in the field theory. In this sense, the correspondence realizes the idea that spacetime and gravity may emerge from more fundamental, non-gravitational degrees of freedom.</p>
+
+<p>The duality is encoded in the GKPW prescription (Gubser–Klebanov–Polyakov–Witten), which states that the generating functional of the conformal field theory equals the partition function of the bulk theory with specified boundary conditions:</p>
+
+\[Z_{\mathrm{CFT}}[J]
+=
+Z_{\mathrm{string}}\big[\phi \,\big|\, \phi|_{\partial \mathrm{AdS}} = J\big].\]
+
+<p>Here \(J(x)\) is a source coupled to some local operator \(\mathcal{O}(x)\) in the boundary theory, and \(\phi\) is the corresponding bulk field whose boundary value acts as that source. In this way, bulk fields and boundary operators are put into one-to-one correspondence.</p>
+
+<p>In general this relation involves the full string theory path integral. However, in the limit of large \(N\) and large ‘t Hooft coupling, the bulk theory simplifies and is well approximated by classical supergravity. In appropriate low-energy truncations, supergravity reduces to Einstein’s gravity (with a negative cosmological constant and additional matter fields), so the dynamics is governed by classical general relativity in AdS spacetime. In this regime the partition function is dominated by its classical saddle:</p>
+
+\[Z_{\mathrm{string}}[J]
+=
+e^{i N^2 S_{\mathrm{AdS}}[\phi_{\mathrm{cl}}]}.\]
+
+<p>Here \(S_{\mathrm{AdS}}\) is the classical supergravity action evaluated on-shell in the AdS background, and \(\phi_{\mathrm{cl}}\) denotes the classical solution of the bulk equations of motion subject to the boundary condition</p>
+
+\[\phi|_{\partial \mathrm{AdS}} = J.\]
+
+<p>The factor of \(N^2\) reflects the scaling of the number of degrees of freedom in the gauge theory. In the large-\(N\) limit the bulk path integral reduces to a stationary phase approximation, so that quantum gravity in the bulk becomes classical gravity, while the boundary theory remains fully quantum.</p>
+
+<p>This equivalence provides a concrete realization of holography: a gravitational theory in five bulk dimensions is completely encoded in a non-gravitational theory living on its four-dimensional boundary. The scaling of degrees of freedom as \(N^2\) matches the area scaling suggested by entropy bounds, giving a precise framework in which the holographic principle is realized.</p>
+
+<p>Black holes in AdS correspond to thermal states in the boundary CFT. In the classical limit, black hole thermodynamics maps directly to ordinary thermodynamics of the gauge theory. In this way, horizon entropy and other gravitational phenomena acquire a microscopic interpretation in terms of quantum field theory degrees of freedom.</p>
+
+<p>Below is an artistic illustration of the correspondence (drawing by my sister):</p>
+
+<p><img src="/data/img/emergent_gravity/anicky_kresba.png" alt="Artistic illustration of AdS/CFT correspondence" style="width: 70%; max-width: 500px; display: block; margin: 0 auto;" /></p>
+
+<p>The cylindrical geometry represents anti–de Sitter spacetime. The circular section at the top can be viewed as it’s spatial slice depicted here as a hyperbolic Poincaré disc. The vertical direction suggests time evolution, while the radial direction into the bulk encodes the energy scale of the boundary theory. The structure inside the cylinder is meant to evoke bulk string dynamics whose effects are fully captured at the boundary, reflecting the central idea that quantum gravity in the bulk is encoded in a lower-dimensional quantum field theory.</p>
+
+<h2 id="jacobsons-emergent-gravity">Jacobson’s emergent gravity</h2>
+
+<p>One of the most conceptually precise emergent-gravity proposals is due to Ted Jacobson<sup id="link6"><a href="#note6">6</a></sup>.</p>
+
+<p>Instead of assuming Einstein’s equations, Jacobson assumes:</p>
+
+<ul>
+  <li>proportionality between entropy and horizon area,</li>
+  <li>
+    <p>validity of the Clausius relation</p>
+
+\[\delta Q = T \, \delta S,\]
+  </li>
+  <li>Unruh temperature for local Rindler horizons.</li>
+</ul>
+
+<p>The key idea is local. Around any spacetime point one introduces a local Rindler horizon and associates to it an entropy proportional to its area and a temperature given by the Unruh temperature of an accelerated observer. Requiring that the Clausius relation holds for all such local horizons leads directly to the Einstein equations.</p>
+
+<p>In this approach, the Einstein equations resemble equations of state, similar to how the Navier–Stokes equations emerge from statistical mechanics. Gravity is not introduced as a fundamental interaction but appears as a thermodynamic consistency condition imposed on local causal horizons.</p>
+
+<p>There is also a natural connection to entropy bounds discussed earlier. The assumption \(\delta S \propto \delta A\) can be viewed as a local saturation of an area-entropy relation. In particular, Jacobson’s reasoning is closely aligned with the covariant spirit of Bousso’s bound, since the entropy is associated with local light-like horizons rather than global, static screens. In this sense, the framework is conceptually closer to the covariant entropy bound than to the original Bekenstein bound, which applies to isolated systems in more restricted settings.</p>
+
+<h2 id="verlindes-entropic-gravity">Verlinde’s entropic gravity</h2>
+
+<p>Erik Verlinde, influenced by Jacobson, proposed understanding gravity as an entropic force<sup id="link7"><a href="#note7">7</a></sup>. The basic idea comes from statistical mechanics. Consider, for example, a polymer immersed in a thermal bath. When stretched, the number of available microscopic configurations decreases, lowering the entropy. The system responds with an effective macroscopic force that tends to restore the polymer to a configuration of higher entropy. In such situations the force is not fundamental but emergent, and is given by</p>
+
+\[F = T \nabla S.\]
+
+<p>Here the entropy plays a role analogous to a potential, while the temperature sets the proportionality scale.</p>
+
+<p>Verlinde applies this intuition to gravity. He considers holographic screens, surfaces that encode information about the bulk degrees of freedom. When a particle moves relative to such a screen, the entropy associated with the microscopic degrees of freedom changes. This change in entropy induces an effective force on the particle.</p>
+
+<p>Using Bekenstein’s entropy bound together with holographic arguments and identifying the temperature with the Unruh temperature experienced by an accelerated observer, one can recover Newton’s law of gravitation in this framework.</p>
+
+<p>While this approach provides appealing intuition and connects naturally to holography and AdS/CFT, it is structurally more restrictive. It relies directly on Bekenstein’s bound, which is less covariant than Bousso’s entropy bound and applies most cleanly in quasi-static situations. Extending the argument beyond the Newtonian regime requires working in special settings of static spacetimes and has not been fully carried out in a general relativistic formulation.</p>
+
+<p>In the project, I compare this framework with Jacobson’s and analyse conceptual limitations that arise when attempting a modern relativistic formulation.</p>
+
+<h2 id="what-this-project-aimed-to-do">What this project aimed to do</h2>
+
+<p>This research project is primarily conceptual and structural rather than model-building. The goal was to:</p>
+
+<ul>
+  <li>review black hole thermodynamics rigorously,</li>
+  <li>analyse entropy bounds and their geometric content,</li>
+  <li>explain the holographic principle in modern language,</li>
+  <li>clarify the relation between Jacobson’s and Verlinde’s approaches,</li>
+  <li>discuss how generalized entropy functionals may modify cosmological equations.</li>
+</ul>
+
+<p>The aim of this work was not to claim that gravity is definitively emergent. Rather, the recurring appearance of thermodynamic, holographic and entanglement-based structures across different approaches suggests that they play a central role in any attempt to understand gravity at a more microscopic level. Whether these structures are fundamental or effective remains open, but they consistently point toward a deep relation between spacetime dynamics and quantum degrees of freedom.</p>
+
+<hr />
+
+<p><span id="note1"><a href="#link1">1</a></span>:
+J. Masák,
+<em>Emergent gravity</em>,
+Research Project,
+Faculty of Nuclear Sciences and Physical Engineering, Czech Technical University in Prague (2025),
+<a href="/data/vyzkumny_ukol.pdf" target="_blank">PDF</a>.</p>
+
+<p><span id="note2"><a href="#link2">2</a></span>:
+J. M. Bardeen, B. Carter, S. W. Hawking,
+<em>The four laws of black hole mechanics</em>,
+<em>Commun. Math. Phys.</em> <strong>31</strong> (1973) 161–170,
+<a href="https://doi.org/10.1007/BF01645742" target="_blank">doi:10.1007/BF01645742</a>.</p>
+
+<p><span id="note3"><a href="#link3">3</a></span>:
+S. W. Hawking,
+<em>Particle creation by black holes</em>,
+<em>Commun. Math. Phys.</em> <strong>43</strong> (1975) 199–220,
+<a href="https://doi.org/10.1007/BF02345020" target="_blank">doi:10.1007/BF02345020</a>.</p>
+
+<p><span id="note4"><a href="#link4">4</a></span>:
+R. Bousso,
+<em>The holographic principle</em>,
+<em>Rev. Mod. Phys.</em> <strong>74</strong> (2002) 825–874,
+<a href="https://doi.org/10.1103/RevModPhys.74.825" target="_blank">doi:10.1103/RevModPhys.74.825</a>.</p>
+
+<p><span id="note5"><a href="#link5">5</a></span>:
+J. M. Maldacena,
+<em>The Large N Limit of Superconformal Field Theories and Supergravity</em>,
+<em>Int. J. Theor. Phys.</em> <strong>38</strong> (1999) 1113–1133,
+<a href="https://doi.org/10.1023/A:1026654312961" target="_blank">doi:10.1023/A:1026654312961</a>.</p>
+
+<p><span id="note6"><a href="#link6">6</a></span>:
+T. Jacobson,
+<em>Thermodynamics of Spacetime: The Einstein Equation of State</em>,
+<em>Phys. Rev. Lett.</em> <strong>75</strong> (1995) 1260–1263,
+<a href="https://doi.org/10.1103/PhysRevLett.75.1260" target="_blank">doi:10.1103/PhysRevLett.75.1260</a>.</p>
+
+<p><span id="note7"><a href="#link7">7</a></span>:
+E. Verlinde,
+<em>On the origin of gravity and the laws of Newton</em>,
+<em>JHEP</em> <strong>2011</strong> (2011) 029,
+<a href="https://doi.org/10.1007/JHEP04(2011)029" target="_blank">doi:10.1007/JHEP04(2011)029</a>.</p>
+
+	
+</div>
+
+<section id="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript" src="https://fields-website.disqus.com/embed.js"></script>
+	<noscript><b id="comments-noscript">Enable JavaScript to see comments.</b></noscript>
+</section>
+
+
+	<script src="/js/bind-polyfill.min.js"></script>
+<script src="/js/smooth-scroll.min.js"></script>
+<script>
+	smoothScroll.init({offset: 30});
+</script>
+
+
+
+		</div>
+
+	</body>
+</html>
