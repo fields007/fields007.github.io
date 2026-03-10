@@ -1,0 +1,1 @@
+{"rule":"FROM_FORM","sentence":"^\\QTo see where it comes from, recall that the valence states of an insulator form the valence Bloch bundle over the Brillouin zone \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q\\E(?:Dummy|Ina|Jimmy-)[0-9]+\\QU(1)$$ gauge symmetry, very much like in ordinary gauge theory.\\E$"}
