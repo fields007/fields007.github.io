@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>
+			XY model simulation
+		</title>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="description" content="Monte Carlo simulation of the two-dimensional XY model">
+		<meta name="viewport" content="initial-scale=1">
+
+		<style>
+			div#header li#XY model simulation a {
+				color: $baseColor1;
+				font-weight: bold;
+			}
+		</style>
+
+		<link rel=”author” href="https://plus.google.com/109642458345919934865/">
+		<link rel="stylesheet" type="text/css" href="/css/main.css">
+		<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
+
+		<!-- Page-specific stylesheets.  -->
+		
+		
+			<link rel="stylesheet" type="text/css" href="/css/header.css">
+		
+		
+
+		<!-- MathJax configuration. -->
+		
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+		
+
+		
+
+		<!-- Bill. -->
+		<script>
+			console.log("_   /|\n\\'o.O'\n=(___)=\n   U\n\nHey there.");
+		</script>
+
+		<!-- Google Analytics. -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-35H84RF8P2"></script>
+			<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'G-35H84RF8P2');
+		</script>
+	</head>
+	<body>
+		<!--[if lt IE 7]>
+			<p>
+				You are using an <strong>outdated</strong> browser. Please
+				<a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.
+			</p>
+		<![endif]-->
+
+		<div id="main">
+			
+				<div id="header">
+	<h2>ϕ</h2>
+	<ul>
+		<li id="home"><a href="/">home</a></li>
+		<li id="about"><a href="/about">about</a></li>
+		<li id="articles"><a href="/articles">articles</a></li>
+		<li id="contact"><a href="mailto:jan2001masak@gmail.com">contact</a></li>
+	</ul>
+</div>
+
+			
+			<div id="meta">
+	<h1>XY model simulation</h1>
+	<span>05 May 2025</span>
+	<div id="tags">
+		<span>tags:</span>
+		
+			
+				<a href="/articles/tags#statistical physics">statistical physics</a>,
+			
+		
+			
+				<a href="/articles/tags#phase transitions">phase transitions</a>,
+			
+		
+			
+				<a href="/articles/tags#Monte Carlo">Monte Carlo</a>,
+			
+		
+			
+				<a href="/articles/tags#computational physics">computational physics</a>,
+			
+		
+			
+		
+		<a href="/articles/tags#academic work">academic work</a>
+	</div>
+</div>
+
+<div id="post">
+	
+		<noscript>
+			<p id="mathjax-warning">
+				<b>Warning:</b> This post contains math blocks rendered with the
+				<a href="https://www.mathjax.org/">MathJax</a> JavaScript library. If you don't enable JavaScript in
+				your browser, none of them will display.
+			</p>
+		</noscript>
+	
+	
+		<p>This article is based on a computational physics project<sup id="link1"><a href="#note1">1</a></sup> carried out at Leiden University. In the project, the two-dimensional XY model was simulated on a square lattice using the Metropolis Monte Carlo algorithm with periodic boundary conditions. The goal was to explore the thermodynamic behaviour of the model and to reproduce the Kosterlitz–Thouless phase transition. Here I give a short conceptual overview of the work. The simulation code used in the project is available on <a href="https://github.com/fields007/XY-model" target="_blank">GitHub</a>.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>The XY model imagines a two-dimensional lattice \(\Lambda\) of sites \(i \in \Lambda\), at each of which there is a vector \(\mathbf{s}_i \in \mathbb{S}^1\) of unit length. This can be viewed as a generalisation of the Ising model because \(\mathbb{S}^0 = \{-1,1\}\). Each configuration is then represented by a set of spins \(\{\mathbf{s}_i\}_{i \in \Lambda}\) or, equivalently, through the parametrisation \(\mathbf{s}_i = (\cos \theta_i, \sin \theta_i)\), with \(\theta_i \in [-\pi,\pi)\), by a set of angles \(\Theta = \{\theta_i\}_{i \in \Lambda}\), which is the representation I will use most often.</p>
+
+<p>The Hamiltonian used in the simulations can be written as a sum of two parts,</p>
+
+\[H[\Theta] = H_0[\Theta] + H_h[\Theta].\]
+
+<p>The first term</p>
+
+\[H_0[\Theta] = -J \sum_{\langle i,j \rangle} \mathbf{s}_i \cdot \mathbf{s}_j = -J \sum_{\langle i,j \rangle} \cos(\theta_i-\theta_j)\]
+
+<p>describes the interaction between nearest neighbours and favours alignment of neighbouring spins. The second term</p>
+
+\[H_h[\Theta] = -\mathbf{h}\cdot \sum_{i \in \Lambda} \mathbf{s}_i = -h \sum_{i \in \Lambda} \cos \theta_i\]
+
+<p>represents the coupling to an external magnetic field of magnitude \(h = \lVert \mathbf{h} \rVert\) pointing in the \(x\) direction.</p>
+
+<p>The key property of the model lies in the symmetry of the interaction term \(H_0\). Because it depends only on angle differences, it has the symmetry</p>
+
+\[H_0[\Theta] = H_0[\Theta+\Delta\theta], \qquad \Delta\theta \in [-\pi,\pi),\]
+
+<p>which is a global \(U(1)\) symmetry. This is probably the most important difference from the Ising model, which also has a global symmetry, but only a discrete \(\mathbb Z_2\) symmetry. Because of this continuous symmetry, we have the Mermin–Wagner theorem<sup id="link2"><a href="#note2">2</a></sup>, which states that in a system with such local interactions, continuous symmetries cannot be spontaneously broken at finite temperature when the spatial dimension is \(\leq 2\). This means that in the thermodynamic limit the system cannot develop a non-zero mean magnetisation serving as an ordinary order parameter.</p>
+
+<p>The physical mechanism behind this is the existence of long-wavelength spin waves. Deviations from order can then be quantified by the momentum-space integral</p>
+
+\[\int \frac{d^2k}{k^2}.\]
+
+<p>If the lattice is \(N\times N\), this integral scales as \(\ln N\) and therefore diverges in the thermodynamic limit. Since in the simulation the lattice is finite, the divergence is only logarithmic, and as we will see, the system can still look magnetised at low temperatures. This is one of the reasons finite-size effects are important in the XY model.</p>
+
+<p>The absence of spontaneous magnetisation also means that the system does not fit the standard Landau picture of phase transitions based on a local order parameter. Nevertheless, the two-dimensional XY model still exhibits a phase transition, first described by Kosterlitz and Thouless<sup id="link3"><a href="#note3">3</a></sup>. It is a topological phase transition, associated with the behaviour of vortices. In our work, we also studied the effect of an external magnetic field. Since the term \(H_h\) explicitly breaks the global \(U(1)\) symmetry, one expects the Kosterlitz–Thouless transition to disappear once the field is switched on. This is indeed what the simulation suggests.</p>
+
+<h2 id="monte-carlo-integration-and-the-metropolis-algorithm">Monte Carlo integration and the Metropolis algorithm</h2>
+
+<p>The Monte Carlo method is a powerful approach for studying the properties of a system at equilibrium when we are not interested in its dynamics and need to calculate high-dimensional integrals. In statistical physics, we typically have to evaluate integrals of the form</p>
+
+\[\langle A \rangle = \int_M \mathcal{D}\Theta \, \frac{e^{-\beta H[\Theta]}}{Z} \, A[\Theta], \qquad Z = \int_M \mathcal{D}\Theta \, e^{-\beta H[\Theta]},\]
+
+<p>with \(\mathcal{D}\Theta = \prod_{i\in\Lambda} d\theta_i\) and \(M = [-\pi,\pi)^{N^2}\), which can be thought of as the configuration space of the system. We therefore have a very high-dimensional integral, and additional complexity arises from the fact that the function \(A[\Theta]e^{-\beta H[\Theta]}\) is usually very sharply peaked. This requires that we do not sample over the configuration space with the uniform distribution, as the simplest Monte Carlo method does, but instead use importance sampling.</p>
+
+<p>Importance sampling can be implemented by means of the Metropolis algorithm<sup id="link4"><a href="#note4">4</a></sup>. This algorithm is also convenient because it assumes that we know the target distribution only up to a normalisation factor. This is exactly the case with the Boltzmann distribution</p>
+
+\[\pi[\Theta(t)] = \frac{e^{-\beta H[\Theta(t)]}}{Z},\]
+
+<p>because we do not know the partition function \(Z\).</p>
+
+<p>The Metropolis algorithm can be understood using the concept of a Markov chain: a set of random states \(\Theta(t)\), where the probability of \(\Theta(t+1)\) depends only on \(\Theta(t)\). A Markov chain is fully described by transition probabilities \(T(\Theta\rightarrow\Theta')\) such that</p>
+
+\[\int_M \mathcal{D}\Theta' \; T(\Theta\rightarrow\Theta') = 1.\]
+
+<p>In the Metropolis algorithm, one divides these probabilities as</p>
+
+\[T(\Theta\rightarrow\Theta') = w(\Theta' \mid \Theta)\times A(\Theta' \mid \Theta).\]
+
+<p>The first factor \(w(\Theta' \mid \Theta)\) denotes the probability to propose a new state \(\Theta'\) given a state \(\Theta\), and the second factor \(A(\Theta' \mid \Theta)\) denotes the probability to accept the proposed new state \(\Theta'\) if the system was before in the state \(\Theta\).</p>
+
+<p>To ensure that a Markov process has a unique stationary distribution, two conditions must be met. First, there has to exist a stationary distribution. A sufficient, though not necessary, condition is the detailed balance condition</p>
+
+\[\pi[\Theta]\,T(\Theta\rightarrow\Theta') = \pi[\Theta']\,T(\Theta'\rightarrow\Theta).\]
+
+<p>Second, the stationary distribution should be unique. This is guaranteed by ergodicity of the Markov chain, a property commonly assumed in the Metropolis algorithm. A key component of ergodicity is irreducibility, which ensures that the Markov chain can explore the entire configuration space over time. As will be important later, in our system this assumption may break down at low temperatures because of finite-size effects.</p>
+
+<p>If we assume that \(w\) is symmetric, that is,</p>
+
+\[w(\Theta' \mid \Theta) = w(\Theta \mid \Theta'),\]
+
+<p>then the detailed balance condition can be written as</p>
+
+\[\frac{A(\Theta' \mid \Theta)}{A(\Theta \mid \Theta')} = \frac{\pi[\Theta']}{\pi[\Theta]},\]
+
+<p>which can be satisfied with</p>
+
+\[A(\Theta' \mid \Theta)=
+\begin{cases}
+1 &amp; \text{if } \pi[\Theta']&gt;\pi[\Theta],\\
+\pi[\Theta']/\pi[\Theta] &amp; \text{if } \pi[\Theta']&lt;\pi[\Theta].
+\end{cases}\]
+
+<p>The Metropolis algorithm thus consists of the following steps:</p>
+
+<ol>
+  <li>Start with a random initial state \(\Theta(0)\).</li>
+  <li>Generate a state \(\Theta'\) from \(\Theta(t)\).</li>
+  <li>If \(\pi[\Theta']&gt;\pi[\Theta(t)]\), then \(A(\Theta'\mid\Theta)=1\) and set \(\Theta(t+1)=\Theta'\). Otherwise, accept the move with probability \(p=\pi[\Theta']/\pi[\Theta(t)]\).</li>
+  <li>Continue with step 2.</li>
+</ol>
+
+<p>In our case, \(\pi[\Theta(t)]\) is the Boltzmann distribution. Thus, a trial move that lowers the energy is always accepted, while a move that increases the energy by an amount</p>
+
+\[\Delta E = H[\Theta'] - H[\Theta]\]
+
+<p>is accepted with probability \(e^{-\beta \Delta E}\). This means that the system tries to move towards lower total energy, but the higher the temperature, the higher is the probability to go to a state with more energy.</p>
+
+<p>For practical implementation, we chose the trial-step probabilities to be</p>
+
+\[w(\Theta' \mid \Theta)
+=
+\begin{cases}
+1/N^2 &amp; \text{if } \Theta \text{ and } \Theta' \text{ differ by one spin},\\
+0 &amp; \text{otherwise}.
+\end{cases}\]
+
+<p>This means that when the spins are in state \(\Theta\), we create a trial state \(\Theta'\) by picking one spin at random and changing its angle by a random increment from an interval \([-\Delta,\Delta]\subset[-\pi,\pi]\). In the simulation, this increment was chosen so that the average acceptance probability stayed close to \(0.5\), which allows the configuration space to be explored efficiently. After that, one computes the energy difference \(\Delta E\) by calculating the change in the interaction energy of the chosen spin with its four neighbours.</p>
+
+<h2 id="measured-quantities">Measured quantities</h2>
+
+<p>The following is an overview of the quantities measured in the simulation. We denote the total magnetisation by \(\mathbf M = \sum_{i\in\Lambda}\mathbf s_i\). The total magnetisation per spin is then \(\mathbf m = \mathbf M / N^2\). Vector norms are denoted simply by \(M = \lVert \mathbf{M} \rVert\) and \(m = \lVert \mathbf{m} \rVert\). The time averages that should converge to ensemble averages are denoted as</p>
+
+\[\langle A \rangle = \frac{1}{T}\sum_{t=1}^{T} A(t),\qquad \langle A(t) \rangle = \frac{1}{T}\sum_{t'=1}^{T} A(t'+t).\]
+
+<p>One of the outputs of the simulation is the average magnitude of total magnetisation per spin, \(\langle m \rangle = \langle M \rangle / N^2\). Another possibility would be to measure \(\langle \mathbf m \rangle\), which should be zero if \(h=0\), but in practice it is unstable at low temperatures. Below the critical temperature, the system acquires a magnetisation and it would take a very long time for it to average back to zero. Because of this, \(\langle \mathbf m \rangle\) is not a stable quantity and it is more useful to measure \(\langle m \rangle\). Analogously, the energy per spin is measured as \(e = E/N^2\), where \(E\) is the total energy of the system.</p>
+
+<p>The standard deviation of magnetisation, and analogously of energy, is calculated as</p>
+
+\[\sigma = \sqrt{\frac{2\tau}{t_{\max}}\left(\langle m^2\rangle - \langle m\rangle^2\right)}\,,\]
+
+<p>where \(\tau\) is the autocorrelation time, that is the time it takes for the system to forget its previous state. The autocorrelation time is calculated from the autocorrelation function</p>
+
+\[\chi(t) = \langle \mathbf m \cdot \mathbf m(t) \rangle - \langle \mathbf m \rangle \cdot \langle \mathbf m(t) \rangle.\]
+
+<p>The autocorrelation function should decay as \(\chi(t) \sim e^{-t/\tau}\). In the simulation, \(\tau\) is approximated as</p>
+
+\[\sum_{t=0}^{t_{\max}} \frac{\chi(t)}{\chi(0)} \simeq \sum_{t=0}^{t_{\max}} e^{-t/\tau} \sim \int_0^\infty e^{-t/\tau}\,\mathrm{d}t = \tau \,,\]
+
+<p>where the last approximation holds for large \(t_{\max}\). So in practice the autocorrelation time is estimated using this sum, with \(t_{\max}\) chosen so that the summation stops once \(\chi(t)&lt;0,\) which signals the onset of poor statistics.</p>
+
+<p>Additional quantities measured in the simulation are the magnetic susceptibility per spin,</p>
+
+\[\chi_M = \frac{1}{N^2 k_B T} \left(\langle \mathbf M \cdot \mathbf M \rangle - \langle \mathbf M \rangle \cdot \langle \mathbf M \rangle \right),\]
+
+<p>and the specific heat per spin,</p>
+
+\[C = \frac{1}{N^2 k_B T^2} \left(\langle E^2\rangle - \langle E\rangle^2\right).\]
+
+<p>An interesting feature that appears in the XY model at low temperatures is the presence of vortex–antivortex pairs. To quantify this phenomenon, the simulation measures the average vortex density and plots the distribution of vortex-pair member distances. The presence of bound vortex pairs in the low-temperature phase, and their unbinding in the high-temperature phase, is one of the central aspects of the Kosterlitz–Thouless picture<sup id="link5"><a href="#note5">5</a></sup>.</p>
+
+<h2 id="vortices-and-the-kosterlitzthouless-transition">Vortices and the Kosterlitz–Thouless transition</h2>
+
+<p>The Kosterlitz–Thouless transition is not best understood through an ordinary local order parameter. Its central objects are vortices, that is topological defects of the spin field. At low temperatures vortices and antivortices tend to appear as tightly bound pairs. At higher temperatures these pairs unbind, and this unbinding is precisely the mechanism underlying the topological phase transition.</p>
+
+<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+
+  <img src="/data/img/XY_model/last_state/low-T.png" alt="Final spin configuration at low temperature showing the effective symmetry breaking." style="width: 45%; max-width: 400px;" />
+
+  <img src="/data/img/XY_model/last_state/high-T.png" alt="Final spin configuration at high temperature where the spins are disordered." style="width: 45%; max-width: 400px;" />
+
+</div>
+
+<p>At low temperature one still sees large correlated regions, even though in the thermodynamic limit true long-range order is absent. Because the lattice in the simulation is finite, the system can effectively select one global orientation and fluctuate only weakly around it. This behaviour is related to the finite-size effects discussed earlier: although long-wavelength spin waves prevent true spontaneous symmetry breaking in the thermodynamic limit, on a finite lattice the system may still appear magnetised for long periods of time.</p>
+
+<p>The same finite-size effects also affect the Monte Carlo sampling. As mentioned earlier in the discussion of the Metropolis algorithm, the assumption that the Markov chain efficiently explores the whole configuration space can become problematic at low temperatures. In practice the simulation may remain trapped near one orientation of the spins, which is why the low-temperature configuration above shows relatively small angular fluctuations.</p>
+
+<p>At high temperature the configuration is visibly more disordered.</p>
+
+<figure style="text-align: center;">
+  <video controls="" preload="metadata" width="450">
+    <source src="/data/img/XY_model/video.mp4" type="video/mp4" />
+  </video>
+  <figcaption style="display:none;">
+    Vortex–antivortex dynamics at low temperature.
+  </figcaption>
+</figure>
+
+<p>The video illustrates the same physics more directly: vortices and antivortices appear as localized defects in the spin field, and at low temperatures they tend to remain pairwise bound.</p>
+
+<h2 id="results-and-discussion">Results and discussion</h2>
+
+<p>A particularly clear quantity is the autocorrelation time. The two plots below show the autocorrelation function at \(T=0.7\) and \(T=1.1\) for \(h=0\).</p>
+
+<p><img src="/data/img/XY_model/autocorrelation/low-T.png" alt="Spin autocorrelation function at low temperature showing slow decay." style="width: 60%; max-width: 450px; display: block; margin: 0 auto;" /></p>
+
+<p><img src="/data/img/XY_model/autocorrelation/high-T.png" alt="Spin autocorrelation function at high temperature with rapid decay." style="width: 60%; max-width: 450px; display: block; margin: 0 auto;" /></p>
+
+<p>If the temperature is high, the autocorrelation function follows the exponential approximation quite accurately, at least in the initial regime where \(\chi(t)&gt;0\). At low temperatures the decay is slower and the difference between the exponential fit and the actual values becomes significant. This supports the concern already mentioned above: at low temperatures the finite lattice may fail to explore configuration space properly and can get stuck around a non-zero magnetisation.</p>
+
+<p>The corresponding autocorrelation times are shown below.</p>
+
+<p><img src="/data/img/XY_model/autocorrelation_time.png" alt="Autocorrelation time as a function of temperature showing critical slowing down near the Kosterlitz–Thouless transition." style="width: 60%; max-width: 450px; display: block; margin: 0 auto;" /></p>
+
+<p>Without an external magnetic field, one can clearly see the existence of a critical point around \(T_C \approx 0.9\). The autocorrelation time grows strongly there, as expected from the Kosterlitz–Thouless transition theory. At low temperatures the autocorrelation time is not properly defined and its value differs between runs. This again arises from the finite-size effects already discussed.</p>
+
+<p>The same figure also displays the effect of external magnetic fields. Even in the case of a weak field \(h=0.05\), the autocorrelation time no longer diverges at the critical point. Although the values are still somewhat larger at low temperatures, they remain in a reasonable range. A stronger magnetic field \(h=0.4\) decreases the autocorrelation time dramatically. This supports the main message of the simulation: the external magnetic field effectively removes the topological phase transition, although some critical behaviour remains.</p>
+
+<p>The vortex-pair distance distributions tell a similar story.</p>
+
+<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+
+  <img src="/data/img/XY_model/vortex_historgram/low-T.png" alt="Histogram of vortex–antivortex pair separations at low temperature showing tightly bound pairs." style="width: 45%; max-width: 400px;" />
+
+  <img src="/data/img/XY_model/vortex_historgram/high-T.png" alt="Histogram of vortex–antivortex pair separations at high temperature showing many unbound vortices." style="width: 45%; max-width: 400px;" />
+</div>
+
+<p>At low temperature there are relatively few vortices and they are mostly pairwise bound, with distances typically of one lattice spacing. At high temperature the distribution becomes much broader, signalling the unbinding of vortex pairs. This is one of the clearest geometric manifestations of the Kosterlitz–Thouless transition.</p>
+
+<p>The simulation therefore reproduces the basic theoretical picture rather well. Without external magnetic field the model undergoes a topological phase transition associated with vortex unbinding and critical slowing down. When a magnetic field is applied, the transition disappears because the global \(U(1)\) symmetry is broken explicitly, but the system still exhibits some residual critical-looking behaviour.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>What I find especially attractive about this project is that it makes a rather subtle phase transition visible in a very concrete way. The two-dimensional XY model does not fit the usual symmetry-breaking paradigm, yet it still exhibits non-trivial thermodynamic behaviour governed by topological defects. The simulation captures this picture quite well: one sees critical slowing down, vortex proliferation above the critical region, and the qualitative disappearance of the transition once an external magnetic field is applied.</p>
+
+<hr />
+
+<p><span id="note1"><a href="#link1">1</a></span>:
+J. Masák, E. Tõkke,
+<em>Computational Physics Project 2: Monte Carlo simulation of the two-dimensional XY model</em>,
+Course Project Report,
+Science faculty, Leiden university (2025),
+<a href="/data/XY_model-report.pdf" target="_blank">PDF</a>.</p>
+
+<p><span id="note2"><a href="#link2">2</a></span>:
+N. D. Mermin, H. Wagner,
+<em>Absence of ferromagnetism or antiferromagnetism in one- or two-dimensional isotropic Heisenberg models</em>,
+<em>Phys. Rev. Lett.</em> <strong>17</strong> (1966) 1133,
+<a href="https://doi.org/10.1103/PhysRevLett.17.1133" target="_blank">doi:10.1103/PhysRevLett.17.1133</a>.</p>
+
+<p><span id="note3"><a href="#link3">3</a></span>:
+J. M. Kosterlitz, D. J. Thouless,
+<em>Ordering, Metastability and Phase Transitions in Two-Dimensional Systems</em>,
+<em>J. Phys. C: Solid State Phys.</em> <strong>6</strong> (1973) 1181,
+<a href="https://doi.org/10.1088/0022-3719/6/7/010" target="_blank">doi:10.1088/0022-3719/6/7/010</a>.</p>
+
+<p><span id="note4"><a href="#link4">4</a></span>:
+N. Metropolis, A. W. Rosenbluth, M. N. Rosenbluth, A. H. Teller, E. Teller,
+<em>Equation of State Calculations by Fast Computing Machines</em>,
+<em>J. Chem. Phys.</em> <strong>21</strong> (1953) 1087,
+<a href="https://doi.org/10.1063/1.1699114" target="_blank">doi:10.1063/1.1699114</a>.</p>
+
+<p><span id="note5"><a href="#link5">5</a></span>:
+J. Tobochnik, G. V. Chester,
+<em>Monte Carlo Study of the Planar Spin Model</em>,
+<em>Phys. Rev. B</em> <strong>20</strong> (1979) 3761,
+<a href="https://doi.org/10.1103/PhysRevB.20.3761" target="_blank">doi:10.1103/PhysRevB.20.3761</a>.</p>
+
+	
+</div>
+
+<section id="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript" src="https://fields-website.disqus.com/embed.js"></script>
+	<noscript><b id="comments-noscript">Enable JavaScript to see comments.</b></noscript>
+</section>
+
+
+	<script src="/js/bind-polyfill.min.js"></script>
+<script src="/js/smooth-scroll.min.js"></script>
+<script>
+	smoothScroll.init({offset: 30});
+</script>
+
+
+
+		</div>
+
+	</body>
+</html>

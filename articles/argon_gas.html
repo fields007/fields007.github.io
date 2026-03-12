@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>
+			Argon gas simulation
+		</title>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="description" content="Molecular dynamics simulation of Argon atoms">
+		<meta name="viewport" content="initial-scale=1">
+
+		<style>
+			div#header li#Argon gas simulation a {
+				color: $baseColor1;
+				font-weight: bold;
+			}
+		</style>
+
+		<link rel=”author” href="https://plus.google.com/109642458345919934865/">
+		<link rel="stylesheet" type="text/css" href="/css/main.css">
+		<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
+
+		<!-- Page-specific stylesheets.  -->
+		
+		
+			<link rel="stylesheet" type="text/css" href="/css/header.css">
+		
+		
+			<link rel="stylesheet" type="text/css" href="/css/code_color_scheme.css">
+			<link rel="stylesheet" type="text/css" href="/css/code.css">
+			<link rel="stylesheet" type="text/css" href="/css/post.css">
+		
+
+		<!-- MathJax configuration. -->
+		
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+		
+
+		
+
+		<!-- Bill. -->
+		<script>
+			console.log("_   /|\n\\'o.O'\n=(___)=\n   U\n\nHey there.");
+		</script>
+
+		<!-- Google Analytics. -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-35H84RF8P2"></script>
+			<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'G-35H84RF8P2');
+		</script>
+	</head>
+	<body>
+		<!--[if lt IE 7]>
+			<p>
+				You are using an <strong>outdated</strong> browser. Please
+				<a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.
+			</p>
+		<![endif]-->
+
+		<div id="main">
+			
+				<div id="header">
+	<h2>ϕ</h2>
+	<ul>
+		<li id="home"><a href="/">home</a></li>
+		<li id="about"><a href="/about">about</a></li>
+		<li id="articles"><a href="/articles">articles</a></li>
+		<li id="contact"><a href="mailto:jan2001masak@gmail.com">contact</a></li>
+	</ul>
+</div>
+
+			
+			<div id="meta">
+	<h1>Argon gas simulation</h1>
+	<span>20 Mar 2025</span>
+	<div id="tags">
+		<span>tags:</span>
+		
+			
+				<a href="/articles/tags#phase transitions">phase transitions</a>,
+			
+		
+			
+				<a href="/articles/tags#statistical physics">statistical physics</a>,
+			
+		
+			
+				<a href="/articles/tags#computational physics">computational physics</a>,
+			
+		
+			
+		
+		<a href="/articles/tags#academic work">academic work</a>
+	</div>
+</div>
+
+<div id="post">
+	
+		<noscript>
+			<p id="mathjax-warning">
+				<b>Warning:</b> This post contains math blocks rendered with the
+				<a href="https://www.mathjax.org/">MathJax</a> JavaScript library. If you don't enable JavaScript in
+				your browser, none of them will display.
+			</p>
+		</noscript>
+	
+	
+		<p>This article is based on a computational physics project<sup id="link1"><a href="#note1">1</a></sup> carried out at Leiden University. In the project, the motion of a relatively small number of Argon atoms was simulated using simple Newtonian dynamics with the Lennard–Jones potential, integrated using the Verlet algorithm with periodic boundary conditions. The aim was to see how this microscopic model reproduces the three phases of matter and to study their basic properties. Here I give a short conceptual exposition of the work. The simulation code used in the project is available on <a href="https://github.com/fields007/XY-model" target="_blank">GitHub</a>.</p>
+
+<h2 id="molecular-dynamics-and-argon">Molecular dynamics and Argon</h2>
+
+<p>Molecular dynamics aims to follow the motion of many interacting particles by numerically solving their equations of motion. Early simulations of this kind already demonstrated phase behaviour in simple interacting systems<sup id="link2"><a href="#note2">2</a></sup>. In this approach each atom is treated as a classical particle and its trajectory is obtained by integrating Newton’s equations. Even a relatively simple interaction model can already reproduce many properties of real materials.</p>
+
+<p>In the simulation each particle obeys Newton’s second law</p>
+
+\[m \frac{d^2 \mathbf{x}}{dt^2} = \mathbf{F}(\mathbf{x}) = - \nabla U(\mathbf{x}) .\]
+
+<p>If the interaction potential is a sum of pair interactions, the force on particle \(\alpha\) can be written as</p>
+
+\[\mathbf{F}_\alpha = - \sum_{\beta \neq \alpha} \nabla U(\mathbf{x}_\alpha - \mathbf{x}_\beta).\]
+
+<p>Once the potential is specified, the task of the simulation is therefore to repeatedly compute the forces and update the particle positions.</p>
+
+<h2 id="lennardjones-potential">Lennard–Jones potential</h2>
+
+<p>For Argon atoms the interaction can be modeled by the Lennard–Jones two-particle potential</p>
+
+\[U(r) = 4\varepsilon \left[\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^6 \right].\]
+
+<p>Here \(r\) is the distance between the two particles, while \(\varepsilon\) and \(\sigma\) set the energy and length scales of the interaction.</p>
+
+<p>The \(r^{-12}\) term produces a strong short-range repulsion, preventing atoms from occupying the same position. The \(r^{-6}\) term represents an attractive van der Waals interaction. Together they create a preferred separation between atoms, corresponding to the minimum of the potential at \(r_{\min} = 2^{1/6}\sigma\).</p>
+
+<p>This preferred distance later appears as the first peak in the pair-correlation function.</p>
+
+<h2 id="numerical-integration">Numerical integration</h2>
+
+<p>To evolve the system in time we integrate the equations of motion numerically. In this project the velocity Verlet algorithm<sup id="link4"><a href="#note4">4</a></sup> was used because it is simple and stable for long simulations.</p>
+
+<p>The positions are updated according to</p>
+
+\[\mathbf{x}(t+h)=\mathbf{x}(t)+h\mathbf{v}(t)+\frac{h^2}{2m}\mathbf{F}(\mathbf{x}(t))+\mathcal{O}(h^3)\,.\]
+
+<p>The velocity update uses the forces at the beginning and end of the step</p>
+
+\[\mathbf{v}(t+h)=\mathbf{v}(t)+\frac{h}{2m}(\mathbf{F}(\mathbf{x}(t+h))+\mathbf{F}(\mathbf{x}(t)))+\mathcal{O}(h^3)\,.\]
+
+<p>In the continuous equations of motion the total energy is conserved. This follows from the invariance of the physical laws under time translations, as expressed by Noether’s theorem. When the equations are discretised this symmetry is generally broken. For example, a simple Euler integration scheme treats the forward and backward directions in time differently and typically leads to a gradual drift of the energy.</p>
+
+<p>The Verlet algorithm improves this behaviour by making the update rule explicitly symmetric under the transformation \(t \to -t\). Although the energy is not exactly conserved, it typically oscillates around the correct value instead of drifting systematically. This makes the method particularly well suited for long molecular dynamics simulations.</p>
+
+<h2 id="periodic-boundary-conditions-and-the-minimum-image-convention">Periodic boundary conditions and the minimum image convention</h2>
+
+<p>The number of particles in a simulation is necessarily limited. To mimic a much larger system we use <strong>periodic boundary conditions</strong>.</p>
+
+<p>Particles move inside a cubic box of side length \(L\). Whenever a particle leaves the box through one side it re-enters through the opposite side. One can think of the simulation box as being surrounded by infinitely many copies of itself. This removes artificial boundary effects and makes the system behave more like a small piece of bulk matter.</p>
+
+<p>Under periodic boundary conditions each particle has infinitely many periodic images. When computing forces we therefore need a rule that determines which image interacts with a given particle. The <strong>minimum image convention</strong> states that particles interact only with the nearest periodic image as illustrated in the image below.</p>
+
+<p><img src="/data/img/argon_gas/minimum_image.png" alt="Illustration of the minimum image convention." style="width: 50%; max-width: 500px; display: block; margin: 0 auto;" /></p>
+
+<p>Formally the relative position between two particles can be written as</p>
+
+\[r_{\alpha\beta} = \min_{k,l,m \in \{-1,0,1\}} \left| \mathbf{x}_\alpha - \mathbf{x}_\beta + (k,l,m)\,L \right|.\]
+
+<p>Because the simulation box is orthogonal, the shortest displacement can be obtained by shifting each coordinate difference into the interval \((-L/2, L/2)\). In practice this can be implemented using the modulo operation</p>
+
+\[\Delta x = (x_\alpha - x_\beta + L/2)\ \mathrm{mod}\ L - L/2 ,\]
+
+<p>and similarly for \(\Delta y\) and \(\Delta z\). The displacement vector is then \(\mathbf{r}_{\alpha\beta} = (\Delta x, \Delta y, \Delta z)\).</p>
+
+<h2 id="initial-configuration-and-equilibration">Initial configuration and equilibration</h2>
+
+<p>To avoid extremely large forces the atoms are initially placed on a face-centered cubic lattice, which is the crystal structure into which Argon solidifies. The initial separation between atoms is chosen to correspond to the observed lattice spacing of solid Argon. In practice such structural parameters can be obtained from experiment or from electronic structure calculations. The unit cell of the face-centered cubic lattice is illustrated in the image below.</p>
+
+<p><img src="/data/img/argon_gas/lattice.png" alt="A unit cell of the face-centered cubic lattice." style="width: 30%; max-width: 500px; display: block; margin: 0 auto;" /></p>
+
+<p>Initial velocities are chosen from a Maxwell distribution corresponding to the desired temperature. The system is then evolved for a number of steps while rescaling the velocities so that the kinetic energy approaches the expected value</p>
+
+\[E_{\mathrm{kin}} = (N-1)\frac{3}{2}k_B T .\]
+
+<p>This equilibration stage allows the system to settle into a representative state before measurements are taken.</p>
+
+<h2 id="pair-correlation-function">Pair-correlation function</h2>
+
+<p>One of the most informative observables is the <strong>pair-correlation function</strong>, which was famously analysed in Rahman’s early molecular dynamics simulation of liquid Argon<sup id="link3"><a href="#note3">3</a></sup>. In the project some of the results reported in that work were also reproduced numerically, allowing for a direct comparison with the classical simulation of liquid Argon.</p>
+
+<p>In the simulation the pair-correlation function is defined as</p>
+
+\[g(r) = \frac{2V}{N(N-1)} \frac{\langle n(r)\rangle}{4\pi r^2 \Delta r}.\]
+
+<p>Here \(n(r)\) denotes the number of particles found at a distance between \(r\) and \(r+\Delta r\) from a chosen reference particle.</p>
+
+<p>Roughly speaking, \(g(r)\) measures how likely it is to find another atom at distance \(r\) compared to a completely uniform distribution. The structure of this function therefore reveals the spatial organization of the system.</p>
+
+<h2 id="gas-phase">Gas phase</h2>
+
+<p>In the gas phase the particles move freely and there is little spatial structure. The trajectories in the animation below show that the atoms travel through the simulation box with frequent collisions but without forming any persistent structure.</p>
+
+<p><img src="/data/img/argon_gas/gas/trajectories.gif" alt="Molecular dynamics trajectories of Argon atoms in the gas phase." style="width: 70%; max-width: 500px; display: block; margin: 0 auto;" /></p>
+
+<p>The corresponding pair-correlation function is shown in the plot below.</p>
+
+<p><img src="/data/img/argon_gas/gas/correlation.png" alt="Pair-correlation function for Argon in the gas phase." style="width: 70%; max-width: 500px; display: block; margin: 0 auto;" /></p>
+
+<p>It is nearly flat with \(g(r) \approx 1\) except at very small distances where the strong repulsive core of the Lennard–Jones potential suppresses close approaches between atoms.</p>
+
+<h2 id="liquid-phase">Liquid phase</h2>
+
+<p>In the liquid phase the atoms still move throughout the system but remain correlated with their neighbours. This can already be seen in the trajectories below, where particles continuously change their neighbours while remaining part of a relatively dense local environment.</p>
+
+<p><img src="/data/img/argon_gas/liquid/trajectories.gif" alt="Molecular dynamics trajectories of Argon atoms in the liquid phase." style="width: 70%; max-width: 500px; display: block; margin: 0 auto;" /></p>
+
+<p>The pair-correlation function shown below reflects this short-range order.</p>
+
+<p><img src="/data/img/argon_gas/liquid/correlation.png" alt="Pair-correlation function for Argon in the liquid phase." style="width: 70%; max-width: 500px; display: block; margin: 0 auto;" /></p>
+
+<p>A pronounced first peak appears near the preferred interatomic separation, together with weaker oscillations at larger distances. These peaks indicate that atoms tend to arrange themselves in shells around each other, even though the long-range order of a crystal is absent.</p>
+
+<h2 id="solid-phase">Solid phase</h2>
+
+<p>In the solid phase atoms remain localized near lattice sites and only oscillate around their equilibrium positions. This behaviour can be seen clearly in the trajectories below.</p>
+
+<p><img src="/data/img/argon_gas/solid/trajectories.gif" alt="Molecular dynamics trajectories of Argon atoms in the solid phase." style="width: 70%; max-width: 500px; display: block; margin: 0 auto;" /></p>
+
+<p>The corresponding pair-correlation function shows a series of sharp peaks.</p>
+
+<p><img src="/data/img/argon_gas/solid/correlation.png" alt="Pair-correlation function for Argon in the solid phase." style="width: 70%; max-width: 500px; display: block; margin: 0 auto;" /></p>
+
+<p>These peaks correspond to the well-defined distances between atoms in the underlying crystal lattice. In contrast to the liquid case, the peaks remain pronounced even at larger distances, reflecting the long-range order characteristic of the solid phase.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Although the model is very simple, it already reproduces the qualitative behaviour of gases, liquids and solids. Even with a relatively small number of particles the characteristic differences between these phases become visible in the particle trajectories and in the pair-correlation function.</p>
+
+<p>This illustrates a central idea of statistical physics: macroscopic properties of matter can often be understood as emerging from simple microscopic dynamics.</p>
+
+<hr />
+
+<p><span id="note1"><a href="#link1">1</a></span>:
+J. Masák, E. Tõkke,
+<em>Computational Physics Project 1: Molecular Dynamics Simulation of Argon Atoms</em>,
+Course Project Report,
+Science faculty, Leiden university (2025),
+<a href="/data/argon_gas-report.pdf" target="_blank">PDF</a>.</p>
+
+<p><span id="note2"><a href="#link2">2</a></span>:
+B. J. Alder, T. E. Wainwright,
+<em>Phase Transition for a Hard Sphere System</em>,
+<em>J. Chem. Phys.</em> <strong>27</strong> (1957) 1208,
+<a href="https://doi.org/10.1063/1.1743957" target="_blank">doi:10.1063/1.1743957</a>.</p>
+
+<p><span id="note3"><a href="#link3">3</a></span>:
+A. Rahman,
+<em>Correlations in the Motion of Atoms in Liquid Argon</em>,
+<em>Phys. Rev.</em> <strong>136</strong> (1964) A405,
+<a href="https://doi.org/10.1103/PhysRev.136.A405" target="_blank">doi:10.1103/PhysRev.136.A405</a>.</p>
+
+<p><span id="note4"><a href="#link4">4</a></span>:
+L. Verlet,
+<em>Computer “Experiments” on Classical Fluids. I. Thermodynamical Properties of Lennard-Jones Molecules</em>,
+<em>Phys. Rev.</em> <strong>159</strong> (1967) 98,
+<a href="https://doi.org/10.1103/PhysRev.159.98" target="_blank">doi:10.1103/PhysRev.159.98</a>.</p>
+
+	
+</div>
+
+<section id="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript" src="https://fields-website.disqus.com/embed.js"></script>
+	<noscript><b id="comments-noscript">Enable JavaScript to see comments.</b></noscript>
+</section>
+
+
+	<script src="/js/bind-polyfill.min.js"></script>
+<script src="/js/smooth-scroll.min.js"></script>
+<script>
+	smoothScroll.init({offset: 30});
+</script>
+
+
+
+		</div>
+
+	</body>
+</html>

@@ -288,6 +288,8 @@ E. Verlinde,
 				
 					<category>graphene></category>
 				
+					<category>phase transitions></category>
+				
 					<category>academic work></category>
 				
 				<description>This article is based on my seminar report1 on topological insulators, prepared at Leiden University. The work gives a pedagogical overview of the topological description of band insulators, with a primary focus on the Kane–Mele model of graphene and the emergence of the ℤ₂ topological phase. Along the way, I introduce the necessary mathematical tools like vector bundles and their topological invariants and illustrate them on the Haldane and Kane–Mele models.
@@ -494,6 +496,462 @@ M. Aghaee, A. Alcaraz Ramirez, Z. Alam, et al.,
 				<pubDate>Wed, 25 Jun 2025 00:00:00 +0000</pubDate>
 				<link>https://fields007.github.io/articles/topological_insulators</link>
 				<guid isPermaLink="true">https://fields007.github.io/articles/topological_insulators</guid>
+			</item>
+		
+			<item>
+				<title>XY model simulation</title>
+				
+					<category>statistical physics></category>
+				
+					<category>phase transitions></category>
+				
+					<category>Monte Carlo></category>
+				
+					<category>computational physics></category>
+				
+					<category>academic work></category>
+				
+				<description>This article is based on a computational physics project1 carried out at Leiden University. In the project, the two-dimensional XY model was simulated on a square lattice using the Metropolis Monte Carlo algorithm with periodic boundary conditions. The goal was to explore the thermodynamic behaviour of the model and to reproduce the Kosterlitz–Thouless phase transition. Here I give a short conceptual overview of the work. The simulation code used in the project is available on GitHub.
+</description>
+				<image>
+					<url>http://www.w3schools.com/images/logo.gif</url>
+					<title>High temperature XY model plot.</title>
+					<link>/data/img/thumbnails/XY_model.png</link>
+				</image>
+				<content type="html">
+					
+						<b>Warning:</b> this post contains math blocks rendered with the
+						<a href="https://www.mathjax.org/">MathJax</a> JavaScript library. If you're using an RSS reader or
+						otherwise have Javascript disabled, none of them will display, so you should instead read this article at
+						its <a href="https://fields007.github.io/articles/XY_model">source</a>.
+					
+					<p>This article is based on a computational physics project<sup id="link1"><a href="#note1">1</a></sup> carried out at Leiden University. In the project, the two-dimensional XY model was simulated on a square lattice using the Metropolis Monte Carlo algorithm with periodic boundary conditions. The goal was to explore the thermodynamic behaviour of the model and to reproduce the Kosterlitz–Thouless phase transition. Here I give a short conceptual overview of the work. The simulation code used in the project is available on <a href="https://github.com/fields007/XY-model" target="_blank">GitHub</a>.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>The XY model imagines a two-dimensional lattice \(\Lambda\) of sites \(i \in \Lambda\), at each of which there is a vector \(\mathbf{s}_i \in \mathbb{S}^1\) of unit length. This can be viewed as a generalisation of the Ising model because \(\mathbb{S}^0 = \{-1,1\}\). Each configuration is then represented by a set of spins \(\{\mathbf{s}_i\}_{i \in \Lambda}\) or, equivalently, through the parametrisation \(\mathbf{s}_i = (\cos \theta_i, \sin \theta_i)\), with \(\theta_i \in [-\pi,\pi)\), by a set of angles \(\Theta = \{\theta_i\}_{i \in \Lambda}\), which is the representation I will use most often.</p>
+
+<p>The Hamiltonian used in the simulations can be written as a sum of two parts,</p>
+
+\[H[\Theta] = H_0[\Theta] + H_h[\Theta].\]
+
+<p>The first term</p>
+
+\[H_0[\Theta] = -J \sum_{\langle i,j \rangle} \mathbf{s}_i \cdot \mathbf{s}_j = -J \sum_{\langle i,j \rangle} \cos(\theta_i-\theta_j)\]
+
+<p>describes the interaction between nearest neighbours and favours alignment of neighbouring spins. The second term</p>
+
+\[H_h[\Theta] = -\mathbf{h}\cdot \sum_{i \in \Lambda} \mathbf{s}_i = -h \sum_{i \in \Lambda} \cos \theta_i\]
+
+<p>represents the coupling to an external magnetic field of magnitude \(h = \lVert \mathbf{h} \rVert\) pointing in the \(x\) direction.</p>
+
+<p>The key property of the model lies in the symmetry of the interaction term \(H_0\). Because it depends only on angle differences, it has the symmetry</p>
+
+\[H_0[\Theta] = H_0[\Theta+\Delta\theta], \qquad \Delta\theta \in [-\pi,\pi),\]
+
+<p>which is a global \(U(1)\) symmetry. This is probably the most important difference from the Ising model, which also has a global symmetry, but only a discrete \(\mathbb Z_2\) symmetry. Because of this continuous symmetry, we have the Mermin–Wagner theorem<sup id="link2"><a href="#note2">2</a></sup>, which states that in a system with such local interactions, continuous symmetries cannot be spontaneously broken at finite temperature when the spatial dimension is \(\leq 2\). This means that in the thermodynamic limit the system cannot develop a non-zero mean magnetisation serving as an ordinary order parameter.</p>
+
+<p>The physical mechanism behind this is the existence of long-wavelength spin waves. Deviations from order can then be quantified by the momentum-space integral</p>
+
+\[\int \frac{d^2k}{k^2}.\]
+
+<p>If the lattice is \(N\times N\), this integral scales as \(\ln N\) and therefore diverges in the thermodynamic limit. Since in the simulation the lattice is finite, the divergence is only logarithmic, and as we will see, the system can still look magnetised at low temperatures. This is one of the reasons finite-size effects are important in the XY model.</p>
+
+<p>The absence of spontaneous magnetisation also means that the system does not fit the standard Landau picture of phase transitions based on a local order parameter. Nevertheless, the two-dimensional XY model still exhibits a phase transition, first described by Kosterlitz and Thouless<sup id="link3"><a href="#note3">3</a></sup>. It is a topological phase transition, associated with the behaviour of vortices. In our work, we also studied the effect of an external magnetic field. Since the term \(H_h\) explicitly breaks the global \(U(1)\) symmetry, one expects the Kosterlitz–Thouless transition to disappear once the field is switched on. This is indeed what the simulation suggests.</p>
+
+<h2 id="monte-carlo-integration-and-the-metropolis-algorithm">Monte Carlo integration and the Metropolis algorithm</h2>
+
+<p>The Monte Carlo method is a powerful approach for studying the properties of a system at equilibrium when we are not interested in its dynamics and need to calculate high-dimensional integrals. In statistical physics, we typically have to evaluate integrals of the form</p>
+
+\[\langle A \rangle = \int_M \mathcal{D}\Theta \, \frac{e^{-\beta H[\Theta]}}{Z} \, A[\Theta], \qquad Z = \int_M \mathcal{D}\Theta \, e^{-\beta H[\Theta]},\]
+
+<p>with \(\mathcal{D}\Theta = \prod_{i\in\Lambda} d\theta_i\) and \(M = [-\pi,\pi)^{N^2}\), which can be thought of as the configuration space of the system. We therefore have a very high-dimensional integral, and additional complexity arises from the fact that the function \(A[\Theta]e^{-\beta H[\Theta]}\) is usually very sharply peaked. This requires that we do not sample over the configuration space with the uniform distribution, as the simplest Monte Carlo method does, but instead use importance sampling.</p>
+
+<p>Importance sampling can be implemented by means of the Metropolis algorithm<sup id="link4"><a href="#note4">4</a></sup>. This algorithm is also convenient because it assumes that we know the target distribution only up to a normalisation factor. This is exactly the case with the Boltzmann distribution</p>
+
+\[\pi[\Theta(t)] = \frac{e^{-\beta H[\Theta(t)]}}{Z},\]
+
+<p>because we do not know the partition function \(Z\).</p>
+
+<p>The Metropolis algorithm can be understood using the concept of a Markov chain: a set of random states \(\Theta(t)\), where the probability of \(\Theta(t+1)\) depends only on \(\Theta(t)\). A Markov chain is fully described by transition probabilities \(T(\Theta\rightarrow\Theta')\) such that</p>
+
+\[\int_M \mathcal{D}\Theta' \; T(\Theta\rightarrow\Theta') = 1.\]
+
+<p>In the Metropolis algorithm, one divides these probabilities as</p>
+
+\[T(\Theta\rightarrow\Theta') = w(\Theta' \mid \Theta)\times A(\Theta' \mid \Theta).\]
+
+<p>The first factor \(w(\Theta' \mid \Theta)\) denotes the probability to propose a new state \(\Theta'\) given a state \(\Theta\), and the second factor \(A(\Theta' \mid \Theta)\) denotes the probability to accept the proposed new state \(\Theta'\) if the system was before in the state \(\Theta\).</p>
+
+<p>To ensure that a Markov process has a unique stationary distribution, two conditions must be met. First, there has to exist a stationary distribution. A sufficient, though not necessary, condition is the detailed balance condition</p>
+
+\[\pi[\Theta]\,T(\Theta\rightarrow\Theta') = \pi[\Theta']\,T(\Theta'\rightarrow\Theta).\]
+
+<p>Second, the stationary distribution should be unique. This is guaranteed by ergodicity of the Markov chain, a property commonly assumed in the Metropolis algorithm. A key component of ergodicity is irreducibility, which ensures that the Markov chain can explore the entire configuration space over time. As will be important later, in our system this assumption may break down at low temperatures because of finite-size effects.</p>
+
+<p>If we assume that \(w\) is symmetric, that is,</p>
+
+\[w(\Theta' \mid \Theta) = w(\Theta \mid \Theta'),\]
+
+<p>then the detailed balance condition can be written as</p>
+
+\[\frac{A(\Theta' \mid \Theta)}{A(\Theta \mid \Theta')} = \frac{\pi[\Theta']}{\pi[\Theta]},\]
+
+<p>which can be satisfied with</p>
+
+\[A(\Theta' \mid \Theta)=
+\begin{cases}
+1 &amp; \text{if } \pi[\Theta']&gt;\pi[\Theta],\\
+\pi[\Theta']/\pi[\Theta] &amp; \text{if } \pi[\Theta']&lt;\pi[\Theta].
+\end{cases}\]
+
+<p>The Metropolis algorithm thus consists of the following steps:</p>
+
+<ol>
+  <li>Start with a random initial state \(\Theta(0)\).</li>
+  <li>Generate a state \(\Theta'\) from \(\Theta(t)\).</li>
+  <li>If \(\pi[\Theta']&gt;\pi[\Theta(t)]\), then \(A(\Theta'\mid\Theta)=1\) and set \(\Theta(t+1)=\Theta'\). Otherwise, accept the move with probability \(p=\pi[\Theta']/\pi[\Theta(t)]\).</li>
+  <li>Continue with step 2.</li>
+</ol>
+
+<p>In our case, \(\pi[\Theta(t)]\) is the Boltzmann distribution. Thus, a trial move that lowers the energy is always accepted, while a move that increases the energy by an amount</p>
+
+\[\Delta E = H[\Theta'] - H[\Theta]\]
+
+<p>is accepted with probability \(e^{-\beta \Delta E}\). This means that the system tries to move towards lower total energy, but the higher the temperature, the higher is the probability to go to a state with more energy.</p>
+
+<p>For practical implementation, we chose the trial-step probabilities to be</p>
+
+\[w(\Theta' \mid \Theta)
+=
+\begin{cases}
+1/N^2 &amp; \text{if } \Theta \text{ and } \Theta' \text{ differ by one spin},\\
+0 &amp; \text{otherwise}.
+\end{cases}\]
+
+<p>This means that when the spins are in state \(\Theta\), we create a trial state \(\Theta'\) by picking one spin at random and changing its angle by a random increment from an interval \([-\Delta,\Delta]\subset[-\pi,\pi]\). In the simulation, this increment was chosen so that the average acceptance probability stayed close to \(0.5\), which allows the configuration space to be explored efficiently. After that, one computes the energy difference \(\Delta E\) by calculating the change in the interaction energy of the chosen spin with its four neighbours.</p>
+
+<h2 id="measured-quantities">Measured quantities</h2>
+
+<p>The following is an overview of the quantities measured in the simulation. We denote the total magnetisation by \(\mathbf M = \sum_{i\in\Lambda}\mathbf s_i\). The total magnetisation per spin is then \(\mathbf m = \mathbf M / N^2\). Vector norms are denoted simply by \(M = \lVert \mathbf{M} \rVert\) and \(m = \lVert \mathbf{m} \rVert\). The time averages that should converge to ensemble averages are denoted as</p>
+
+\[\langle A \rangle = \frac{1}{T}\sum_{t=1}^{T} A(t),\qquad \langle A(t) \rangle = \frac{1}{T}\sum_{t'=1}^{T} A(t'+t).\]
+
+<p>One of the outputs of the simulation is the average magnitude of total magnetisation per spin, \(\langle m \rangle = \langle M \rangle / N^2\). Another possibility would be to measure \(\langle \mathbf m \rangle\), which should be zero if \(h=0\), but in practice it is unstable at low temperatures. Below the critical temperature, the system acquires a magnetisation and it would take a very long time for it to average back to zero. Because of this, \(\langle \mathbf m \rangle\) is not a stable quantity and it is more useful to measure \(\langle m \rangle\). Analogously, the energy per spin is measured as \(e = E/N^2\), where \(E\) is the total energy of the system.</p>
+
+<p>The standard deviation of magnetisation, and analogously of energy, is calculated as</p>
+
+\[\sigma = \sqrt{\frac{2\tau}{t_{\max}}\left(\langle m^2\rangle - \langle m\rangle^2\right)}\,,\]
+
+<p>where \(\tau\) is the autocorrelation time, that is the time it takes for the system to forget its previous state. The autocorrelation time is calculated from the autocorrelation function</p>
+
+\[\chi(t) = \langle \mathbf m \cdot \mathbf m(t) \rangle - \langle \mathbf m \rangle \cdot \langle \mathbf m(t) \rangle.\]
+
+<p>The autocorrelation function should decay as \(\chi(t) \sim e^{-t/\tau}\). In the simulation, \(\tau\) is approximated as</p>
+
+\[\sum_{t=0}^{t_{\max}} \frac{\chi(t)}{\chi(0)} \simeq \sum_{t=0}^{t_{\max}} e^{-t/\tau} \sim \int_0^\infty e^{-t/\tau}\,\mathrm{d}t = \tau \,,\]
+
+<p>where the last approximation holds for large \(t_{\max}\). So in practice the autocorrelation time is estimated using this sum, with \(t_{\max}\) chosen so that the summation stops once \(\chi(t)&lt;0,\) which signals the onset of poor statistics.</p>
+
+<p>Additional quantities measured in the simulation are the magnetic susceptibility per spin,</p>
+
+\[\chi_M = \frac{1}{N^2 k_B T} \left(\langle \mathbf M \cdot \mathbf M \rangle - \langle \mathbf M \rangle \cdot \langle \mathbf M \rangle \right),\]
+
+<p>and the specific heat per spin,</p>
+
+\[C = \frac{1}{N^2 k_B T^2} \left(\langle E^2\rangle - \langle E\rangle^2\right).\]
+
+<p>An interesting feature that appears in the XY model at low temperatures is the presence of vortex–antivortex pairs. To quantify this phenomenon, the simulation measures the average vortex density and plots the distribution of vortex-pair member distances. The presence of bound vortex pairs in the low-temperature phase, and their unbinding in the high-temperature phase, is one of the central aspects of the Kosterlitz–Thouless picture<sup id="link5"><a href="#note5">5</a></sup>.</p>
+
+<h2 id="vortices-and-the-kosterlitzthouless-transition">Vortices and the Kosterlitz–Thouless transition</h2>
+
+<p>The Kosterlitz–Thouless transition is not best understood through an ordinary local order parameter. Its central objects are vortices, that is topological defects of the spin field. At low temperatures vortices and antivortices tend to appear as tightly bound pairs. At higher temperatures these pairs unbind, and this unbinding is precisely the mechanism underlying the topological phase transition.</p>
+
+<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+
+  <img src="/data/img/XY_model/last_state/low-T.png" alt="Final spin configuration at low temperature showing the effective symmetry breaking." style="width: 45%; max-width: 400px;" />
+
+  <img src="/data/img/XY_model/last_state/high-T.png" alt="Final spin configuration at high temperature where the spins are disordered." style="width: 45%; max-width: 400px;" />
+
+</div>
+
+<p>At low temperature one still sees large correlated regions, even though in the thermodynamic limit true long-range order is absent. Because the lattice in the simulation is finite, the system can effectively select one global orientation and fluctuate only weakly around it. This behaviour is related to the finite-size effects discussed earlier: although long-wavelength spin waves prevent true spontaneous symmetry breaking in the thermodynamic limit, on a finite lattice the system may still appear magnetised for long periods of time.</p>
+
+<p>The same finite-size effects also affect the Monte Carlo sampling. As mentioned earlier in the discussion of the Metropolis algorithm, the assumption that the Markov chain efficiently explores the whole configuration space can become problematic at low temperatures. In practice the simulation may remain trapped near one orientation of the spins, which is why the low-temperature configuration above shows relatively small angular fluctuations.</p>
+
+<p>At high temperature the configuration is visibly more disordered.</p>
+
+<figure style="text-align: center;">
+  <video controls="" preload="metadata" width="450">
+    <source src="/data/img/XY_model/video.mp4" type="video/mp4" />
+  </video>
+  <figcaption style="display:none;">
+    Vortex–antivortex dynamics at low temperature.
+  </figcaption>
+</figure>
+
+<p>The video illustrates the same physics more directly: vortices and antivortices appear as localized defects in the spin field, and at low temperatures they tend to remain pairwise bound.</p>
+
+<h2 id="results-and-discussion">Results and discussion</h2>
+
+<p>A particularly clear quantity is the autocorrelation time. The two plots below show the autocorrelation function at \(T=0.7\) and \(T=1.1\) for \(h=0\).</p>
+
+<p><img src="/data/img/XY_model/autocorrelation/low-T.png" alt="Spin autocorrelation function at low temperature showing slow decay." style="width: 60%; max-width: 450px; display: block; margin: 0 auto;" /></p>
+
+<p><img src="/data/img/XY_model/autocorrelation/high-T.png" alt="Spin autocorrelation function at high temperature with rapid decay." style="width: 60%; max-width: 450px; display: block; margin: 0 auto;" /></p>
+
+<p>If the temperature is high, the autocorrelation function follows the exponential approximation quite accurately, at least in the initial regime where \(\chi(t)&gt;0\). At low temperatures the decay is slower and the difference between the exponential fit and the actual values becomes significant. This supports the concern already mentioned above: at low temperatures the finite lattice may fail to explore configuration space properly and can get stuck around a non-zero magnetisation.</p>
+
+<p>The corresponding autocorrelation times are shown below.</p>
+
+<p><img src="/data/img/XY_model/autocorrelation_time.png" alt="Autocorrelation time as a function of temperature showing critical slowing down near the Kosterlitz–Thouless transition." style="width: 60%; max-width: 450px; display: block; margin: 0 auto;" /></p>
+
+<p>Without an external magnetic field, one can clearly see the existence of a critical point around \(T_C \approx 0.9\). The autocorrelation time grows strongly there, as expected from the Kosterlitz–Thouless transition theory. At low temperatures the autocorrelation time is not properly defined and its value differs between runs. This again arises from the finite-size effects already discussed.</p>
+
+<p>The same figure also displays the effect of external magnetic fields. Even in the case of a weak field \(h=0.05\), the autocorrelation time no longer diverges at the critical point. Although the values are still somewhat larger at low temperatures, they remain in a reasonable range. A stronger magnetic field \(h=0.4\) decreases the autocorrelation time dramatically. This supports the main message of the simulation: the external magnetic field effectively removes the topological phase transition, although some critical behaviour remains.</p>
+
+<p>The vortex-pair distance distributions tell a similar story.</p>
+
+<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+
+  <img src="/data/img/XY_model/vortex_historgram/low-T.png" alt="Histogram of vortex–antivortex pair separations at low temperature showing tightly bound pairs." style="width: 45%; max-width: 400px;" />
+
+  <img src="/data/img/XY_model/vortex_historgram/high-T.png" alt="Histogram of vortex–antivortex pair separations at high temperature showing many unbound vortices." style="width: 45%; max-width: 400px;" />
+</div>
+
+<p>At low temperature there are relatively few vortices and they are mostly pairwise bound, with distances typically of one lattice spacing. At high temperature the distribution becomes much broader, signalling the unbinding of vortex pairs. This is one of the clearest geometric manifestations of the Kosterlitz–Thouless transition.</p>
+
+<p>The simulation therefore reproduces the basic theoretical picture rather well. Without external magnetic field the model undergoes a topological phase transition associated with vortex unbinding and critical slowing down. When a magnetic field is applied, the transition disappears because the global \(U(1)\) symmetry is broken explicitly, but the system still exhibits some residual critical-looking behaviour.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>What I find especially attractive about this project is that it makes a rather subtle phase transition visible in a very concrete way. The two-dimensional XY model does not fit the usual symmetry-breaking paradigm, yet it still exhibits non-trivial thermodynamic behaviour governed by topological defects. The simulation captures this picture quite well: one sees critical slowing down, vortex proliferation above the critical region, and the qualitative disappearance of the transition once an external magnetic field is applied.</p>
+
+<hr />
+
+<p><span id="note1"><a href="#link1">1</a></span>:
+J. Masák, E. Tõkke,
+<em>Computational Physics Project 2: Monte Carlo simulation of the two-dimensional XY model</em>,
+Course Project Report,
+Science faculty, Leiden university (2025),
+<a href="/data/XY_model-report.pdf" target="_blank">PDF</a>.</p>
+
+<p><span id="note2"><a href="#link2">2</a></span>:
+N. D. Mermin, H. Wagner,
+<em>Absence of ferromagnetism or antiferromagnetism in one- or two-dimensional isotropic Heisenberg models</em>,
+<em>Phys. Rev. Lett.</em> <strong>17</strong> (1966) 1133,
+<a href="https://doi.org/10.1103/PhysRevLett.17.1133" target="_blank">doi:10.1103/PhysRevLett.17.1133</a>.</p>
+
+<p><span id="note3"><a href="#link3">3</a></span>:
+J. M. Kosterlitz, D. J. Thouless,
+<em>Ordering, Metastability and Phase Transitions in Two-Dimensional Systems</em>,
+<em>J. Phys. C: Solid State Phys.</em> <strong>6</strong> (1973) 1181,
+<a href="https://doi.org/10.1088/0022-3719/6/7/010" target="_blank">doi:10.1088/0022-3719/6/7/010</a>.</p>
+
+<p><span id="note4"><a href="#link4">4</a></span>:
+N. Metropolis, A. W. Rosenbluth, M. N. Rosenbluth, A. H. Teller, E. Teller,
+<em>Equation of State Calculations by Fast Computing Machines</em>,
+<em>J. Chem. Phys.</em> <strong>21</strong> (1953) 1087,
+<a href="https://doi.org/10.1063/1.1699114" target="_blank">doi:10.1063/1.1699114</a>.</p>
+
+<p><span id="note5"><a href="#link5">5</a></span>:
+J. Tobochnik, G. V. Chester,
+<em>Monte Carlo Study of the Planar Spin Model</em>,
+<em>Phys. Rev. B</em> <strong>20</strong> (1979) 3761,
+<a href="https://doi.org/10.1103/PhysRevB.20.3761" target="_blank">doi:10.1103/PhysRevB.20.3761</a>.</p>
+>
+				</content>
+				<pubDate>Mon, 05 May 2025 00:00:00 +0000</pubDate>
+				<link>https://fields007.github.io/articles/XY_model</link>
+				<guid isPermaLink="true">https://fields007.github.io/articles/XY_model</guid>
+			</item>
+		
+			<item>
+				<title>Argon gas simulation</title>
+				
+					<category>phase transitions></category>
+				
+					<category>statistical physics></category>
+				
+					<category>computational physics></category>
+				
+					<category>academic work></category>
+				
+				<description>This article is based on a computational physics project1 carried out at Leiden University. In the project, the motion of a relatively small number of Argon atoms was simulated using simple Newtonian dynamics with the Lennard–Jones potential, integrated using the Verlet algorithm with periodic boundary conditions. The aim was to see how this microscopic model reproduces the three phases of matter and to study their basic properties. Here I give a short conceptual exposition of the work. The simulation code used in the project is available on GitHub.
+</description>
+				<image>
+					<url>http://www.w3schools.com/images/logo.gif</url>
+					<title>Argon gas-discharge lamp.</title>
+					<link>/data/img/thumbnails/argon_gas.png</link>
+				</image>
+				<content type="html">
+					
+						<b>Warning:</b> this post contains math blocks rendered with the
+						<a href="https://www.mathjax.org/">MathJax</a> JavaScript library. If you're using an RSS reader or
+						otherwise have Javascript disabled, none of them will display, so you should instead read this article at
+						its <a href="https://fields007.github.io/articles/argon_gas">source</a>.
+					
+					<p>This article is based on a computational physics project<sup id="link1"><a href="#note1">1</a></sup> carried out at Leiden University. In the project, the motion of a relatively small number of Argon atoms was simulated using simple Newtonian dynamics with the Lennard–Jones potential, integrated using the Verlet algorithm with periodic boundary conditions. The aim was to see how this microscopic model reproduces the three phases of matter and to study their basic properties. Here I give a short conceptual exposition of the work. The simulation code used in the project is available on <a href="https://github.com/fields007/XY-model" target="_blank">GitHub</a>.</p>
+
+<h2 id="molecular-dynamics-and-argon">Molecular dynamics and Argon</h2>
+
+<p>Molecular dynamics aims to follow the motion of many interacting particles by numerically solving their equations of motion. Early simulations of this kind already demonstrated phase behaviour in simple interacting systems<sup id="link2"><a href="#note2">2</a></sup>. In this approach each atom is treated as a classical particle and its trajectory is obtained by integrating Newton’s equations. Even a relatively simple interaction model can already reproduce many properties of real materials.</p>
+
+<p>In the simulation each particle obeys Newton’s second law</p>
+
+\[m \frac{d^2 \mathbf{x}}{dt^2} = \mathbf{F}(\mathbf{x}) = - \nabla U(\mathbf{x}) .\]
+
+<p>If the interaction potential is a sum of pair interactions, the force on particle \(\alpha\) can be written as</p>
+
+\[\mathbf{F}_\alpha = - \sum_{\beta \neq \alpha} \nabla U(\mathbf{x}_\alpha - \mathbf{x}_\beta).\]
+
+<p>Once the potential is specified, the task of the simulation is therefore to repeatedly compute the forces and update the particle positions.</p>
+
+<h2 id="lennardjones-potential">Lennard–Jones potential</h2>
+
+<p>For Argon atoms the interaction can be modeled by the Lennard–Jones two-particle potential</p>
+
+\[U(r) = 4\varepsilon \left[\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^6 \right].\]
+
+<p>Here \(r\) is the distance between the two particles, while \(\varepsilon\) and \(\sigma\) set the energy and length scales of the interaction.</p>
+
+<p>The \(r^{-12}\) term produces a strong short-range repulsion, preventing atoms from occupying the same position. The \(r^{-6}\) term represents an attractive van der Waals interaction. Together they create a preferred separation between atoms, corresponding to the minimum of the potential at \(r_{\min} = 2^{1/6}\sigma\).</p>
+
+<p>This preferred distance later appears as the first peak in the pair-correlation function.</p>
+
+<h2 id="numerical-integration">Numerical integration</h2>
+
+<p>To evolve the system in time we integrate the equations of motion numerically. In this project the velocity Verlet algorithm<sup id="link4"><a href="#note4">4</a></sup> was used because it is simple and stable for long simulations.</p>
+
+<p>The positions are updated according to</p>
+
+\[\mathbf{x}(t+h)=\mathbf{x}(t)+h\mathbf{v}(t)+\frac{h^2}{2m}\mathbf{F}(\mathbf{x}(t))+\mathcal{O}(h^3)\,.\]
+
+<p>The velocity update uses the forces at the beginning and end of the step</p>
+
+\[\mathbf{v}(t+h)=\mathbf{v}(t)+\frac{h}{2m}(\mathbf{F}(\mathbf{x}(t+h))+\mathbf{F}(\mathbf{x}(t)))+\mathcal{O}(h^3)\,.\]
+
+<p>In the continuous equations of motion the total energy is conserved. This follows from the invariance of the physical laws under time translations, as expressed by Noether’s theorem. When the equations are discretised this symmetry is generally broken. For example, a simple Euler integration scheme treats the forward and backward directions in time differently and typically leads to a gradual drift of the energy.</p>
+
+<p>The Verlet algorithm improves this behaviour by making the update rule explicitly symmetric under the transformation \(t \to -t\). Although the energy is not exactly conserved, it typically oscillates around the correct value instead of drifting systematically. This makes the method particularly well suited for long molecular dynamics simulations.</p>
+
+<h2 id="periodic-boundary-conditions-and-the-minimum-image-convention">Periodic boundary conditions and the minimum image convention</h2>
+
+<p>The number of particles in a simulation is necessarily limited. To mimic a much larger system we use <strong>periodic boundary conditions</strong>.</p>
+
+<p>Particles move inside a cubic box of side length \(L\). Whenever a particle leaves the box through one side it re-enters through the opposite side. One can think of the simulation box as being surrounded by infinitely many copies of itself. This removes artificial boundary effects and makes the system behave more like a small piece of bulk matter.</p>
+
+<p>Under periodic boundary conditions each particle has infinitely many periodic images. When computing forces we therefore need a rule that determines which image interacts with a given particle. The <strong>minimum image convention</strong> states that particles interact only with the nearest periodic image as illustrated in the image below.</p>
+
+<p><img src="/data/img/argon_gas/minimum_image.png" alt="Illustration of the minimum image convention." style="width: 50%; max-width: 500px; display: block; margin: 0 auto;" /></p>
+
+<p>Formally the relative position between two particles can be written as</p>
+
+\[r_{\alpha\beta} = \min_{k,l,m \in \{-1,0,1\}} \left| \mathbf{x}_\alpha - \mathbf{x}_\beta + (k,l,m)\,L \right|.\]
+
+<p>Because the simulation box is orthogonal, the shortest displacement can be obtained by shifting each coordinate difference into the interval \((-L/2, L/2)\). In practice this can be implemented using the modulo operation</p>
+
+\[\Delta x = (x_\alpha - x_\beta + L/2)\ \mathrm{mod}\ L - L/2 ,\]
+
+<p>and similarly for \(\Delta y\) and \(\Delta z\). The displacement vector is then \(\mathbf{r}_{\alpha\beta} = (\Delta x, \Delta y, \Delta z)\).</p>
+
+<h2 id="initial-configuration-and-equilibration">Initial configuration and equilibration</h2>
+
+<p>To avoid extremely large forces the atoms are initially placed on a face-centered cubic lattice, which is the crystal structure into which Argon solidifies. The initial separation between atoms is chosen to correspond to the observed lattice spacing of solid Argon. In practice such structural parameters can be obtained from experiment or from electronic structure calculations. The unit cell of the face-centered cubic lattice is illustrated in the image below.</p>
+
+<p><img src="/data/img/argon_gas/lattice.png" alt="A unit cell of the face-centered cubic lattice." style="width: 30%; max-width: 500px; display: block; margin: 0 auto;" /></p>
+
+<p>Initial velocities are chosen from a Maxwell distribution corresponding to the desired temperature. The system is then evolved for a number of steps while rescaling the velocities so that the kinetic energy approaches the expected value</p>
+
+\[E_{\mathrm{kin}} = (N-1)\frac{3}{2}k_B T .\]
+
+<p>This equilibration stage allows the system to settle into a representative state before measurements are taken.</p>
+
+<h2 id="pair-correlation-function">Pair-correlation function</h2>
+
+<p>One of the most informative observables is the <strong>pair-correlation function</strong>, which was famously analysed in Rahman’s early molecular dynamics simulation of liquid Argon<sup id="link3"><a href="#note3">3</a></sup>. In the project some of the results reported in that work were also reproduced numerically, allowing for a direct comparison with the classical simulation of liquid Argon.</p>
+
+<p>In the simulation the pair-correlation function is defined as</p>
+
+\[g(r) = \frac{2V}{N(N-1)} \frac{\langle n(r)\rangle}{4\pi r^2 \Delta r}.\]
+
+<p>Here \(n(r)\) denotes the number of particles found at a distance between \(r\) and \(r+\Delta r\) from a chosen reference particle.</p>
+
+<p>Roughly speaking, \(g(r)\) measures how likely it is to find another atom at distance \(r\) compared to a completely uniform distribution. The structure of this function therefore reveals the spatial organization of the system.</p>
+
+<h2 id="gas-phase">Gas phase</h2>
+
+<p>In the gas phase the particles move freely and there is little spatial structure. The trajectories in the animation below show that the atoms travel through the simulation box with frequent collisions but without forming any persistent structure.</p>
+
+<p><img src="/data/img/argon_gas/gas/trajectories.gif" alt="Molecular dynamics trajectories of Argon atoms in the gas phase." style="width: 70%; max-width: 500px; display: block; margin: 0 auto;" /></p>
+
+<p>The corresponding pair-correlation function is shown in the plot below.</p>
+
+<p><img src="/data/img/argon_gas/gas/correlation.png" alt="Pair-correlation function for Argon in the gas phase." style="width: 70%; max-width: 500px; display: block; margin: 0 auto;" /></p>
+
+<p>It is nearly flat with \(g(r) \approx 1\) except at very small distances where the strong repulsive core of the Lennard–Jones potential suppresses close approaches between atoms.</p>
+
+<h2 id="liquid-phase">Liquid phase</h2>
+
+<p>In the liquid phase the atoms still move throughout the system but remain correlated with their neighbours. This can already be seen in the trajectories below, where particles continuously change their neighbours while remaining part of a relatively dense local environment.</p>
+
+<p><img src="/data/img/argon_gas/liquid/trajectories.gif" alt="Molecular dynamics trajectories of Argon atoms in the liquid phase." style="width: 70%; max-width: 500px; display: block; margin: 0 auto;" /></p>
+
+<p>The pair-correlation function shown below reflects this short-range order.</p>
+
+<p><img src="/data/img/argon_gas/liquid/correlation.png" alt="Pair-correlation function for Argon in the liquid phase." style="width: 70%; max-width: 500px; display: block; margin: 0 auto;" /></p>
+
+<p>A pronounced first peak appears near the preferred interatomic separation, together with weaker oscillations at larger distances. These peaks indicate that atoms tend to arrange themselves in shells around each other, even though the long-range order of a crystal is absent.</p>
+
+<h2 id="solid-phase">Solid phase</h2>
+
+<p>In the solid phase atoms remain localized near lattice sites and only oscillate around their equilibrium positions. This behaviour can be seen clearly in the trajectories below.</p>
+
+<p><img src="/data/img/argon_gas/solid/trajectories.gif" alt="Molecular dynamics trajectories of Argon atoms in the solid phase." style="width: 70%; max-width: 500px; display: block; margin: 0 auto;" /></p>
+
+<p>The corresponding pair-correlation function shows a series of sharp peaks.</p>
+
+<p><img src="/data/img/argon_gas/solid/correlation.png" alt="Pair-correlation function for Argon in the solid phase." style="width: 70%; max-width: 500px; display: block; margin: 0 auto;" /></p>
+
+<p>These peaks correspond to the well-defined distances between atoms in the underlying crystal lattice. In contrast to the liquid case, the peaks remain pronounced even at larger distances, reflecting the long-range order characteristic of the solid phase.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Although the model is very simple, it already reproduces the qualitative behaviour of gases, liquids and solids. Even with a relatively small number of particles the characteristic differences between these phases become visible in the particle trajectories and in the pair-correlation function.</p>
+
+<p>This illustrates a central idea of statistical physics: macroscopic properties of matter can often be understood as emerging from simple microscopic dynamics.</p>
+
+<hr />
+
+<p><span id="note1"><a href="#link1">1</a></span>:
+J. Masák, E. Tõkke,
+<em>Computational Physics Project 1: Molecular Dynamics Simulation of Argon Atoms</em>,
+Course Project Report,
+Science faculty, Leiden university (2025),
+<a href="/data/argon_gas-report.pdf" target="_blank">PDF</a>.</p>
+
+<p><span id="note2"><a href="#link2">2</a></span>:
+B. J. Alder, T. E. Wainwright,
+<em>Phase Transition for a Hard Sphere System</em>,
+<em>J. Chem. Phys.</em> <strong>27</strong> (1957) 1208,
+<a href="https://doi.org/10.1063/1.1743957" target="_blank">doi:10.1063/1.1743957</a>.</p>
+
+<p><span id="note3"><a href="#link3">3</a></span>:
+A. Rahman,
+<em>Correlations in the Motion of Atoms in Liquid Argon</em>,
+<em>Phys. Rev.</em> <strong>136</strong> (1964) A405,
+<a href="https://doi.org/10.1103/PhysRev.136.A405" target="_blank">doi:10.1103/PhysRev.136.A405</a>.</p>
+
+<p><span id="note4"><a href="#link4">4</a></span>:
+L. Verlet,
+<em>Computer “Experiments” on Classical Fluids. I. Thermodynamical Properties of Lennard-Jones Molecules</em>,
+<em>Phys. Rev.</em> <strong>159</strong> (1967) 98,
+<a href="https://doi.org/10.1103/PhysRev.159.98" target="_blank">doi:10.1103/PhysRev.159.98</a>.</p>
+>
+				</content>
+				<pubDate>Thu, 20 Mar 2025 00:00:00 +0000</pubDate>
+				<link>https://fields007.github.io/articles/argon_gas</link>
+				<guid isPermaLink="true">https://fields007.github.io/articles/argon_gas</guid>
 			</item>
 		
 			<item>
